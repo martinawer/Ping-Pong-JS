@@ -26,7 +26,7 @@ html, body
   height: 60px
   position: absolute
   align-items: start
-  z-index: 2
+  z-index: 3
 
 #computer-block
   background-color: $primary-color
@@ -34,7 +34,7 @@ html, body
   height: 60px
   position: absolute
   right: 0
-  z-index: 2
+  z-index: 3
 
 #game-menu
   font-family: 'Press Start 2P', cursive
@@ -42,8 +42,13 @@ html, body
   grid-column-end: 3
   grid-row-start: 2
   grid-row-end: 3
-  z-index: 1
+  z-index: 2
   position: relative
+  background-color: $menu-color
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: large
 
 #game-title
   grid-column-start: 1

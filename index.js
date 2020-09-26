@@ -5,12 +5,15 @@ const gameWindowEl = document.getElementById('game-window');
 const titleEl = document.getElementById('game-title');
 const ballEl = document.getElementById('game-ball');
 const canvasWrapper = document.getElementById('canvas-wrapper');
+const gameMenuEl = document.getElementById('game-menu');
 
 const playerSpeed = 7.5;
 const keys = {
 	ARROW_UP: 38,
-	ARROW_DOWN: 40
+	ARROW_DOWN: 40,
+	SPACE: 32
 }
+
 
 // Variables
 let gameWindow = {
@@ -26,22 +29,41 @@ let playerPosition = {
 	height: playerBlockEl.getBoundingClientRect().height
 }
 let ball;
-let ballRefreshRate = 8; //10 (faster) > 20 (slower) = Movement Speed
+let playerReady = false;
+let ballRefreshRate = 12; //10 (faster) > 20 (slower) = Movement Speed
 let playerMovementSpeed = 20;
 let ballRadius = 20;
 let ballPosition = {
-	x: 100,
-	y: 100,
-	dx: -2,
-	dy: -2,
+	x: gameWindow.width/2,
+	y: gameWindow.height/2,
+	dx: 0,
+	dy: 0
 }
 
-function detectKey(event) {
+function start() {
+	if(Math.random() <= 0.25) {
+		ballPosition.dx = -2;
+		ballPosition.dy = -2;
+	} else if(Math.random() <= 0.5) {
+		ballPosition.dx = 2;
+		ballPosition.dy = -2;
+	} else if(Math.random() <= 0.75) {
+		ballPosition.dx = -2;
+		ballPosition.dy = 2;
+	} else {
+		ballPosition.dx = 0;
+		ballPosition.dy = 0;
+	}
+	gameMenuEl.style.display = 'none';
+}
+
+async function detectKey(event) {
 	if(event.keyCode === keys.ARROW_UP) {
-		//can use event.repeat?
 		moveUp();
 	} else if(event.keyCode === keys.ARROW_DOWN) {
 		moveDown();
+	} else if(event.keyCode === keys.SPACE && !playerReady) {
+		await startGame();
 	}
 }
 
@@ -59,12 +81,12 @@ function draw() {
 	ball.fill();
 	ballPosition.x += ballPosition.dx;
 	ballPosition.y += ballPosition.dy;
+	checkBoundaries();
+}
 
-	//check boundaries
-	//TODO: check the direction the ball is coming from
-	//if ball hits bottom or right wall it goes in to the center of the ball
-	if( (ballPosition.x-ballRadius) < 0 || ballPosition.x>gameWindow.width) ballPosition.dx =- ballPosition.dx; 
-	if( (ballPosition.y-ballRadius) < 0 || ballPosition.y>gameWindow.height) ballPosition.dy =- ballPosition.dy; 
+function checkBoundaries() {
+	if( (ballPosition.x-ballRadius) < 0 || ballPosition.x>gameWindow.width-ballRadius) ballPosition.dx =- ballPosition.dx; 
+	if( (ballPosition.y-ballRadius) < 0 || ballPosition.y>gameWindow.height-ballRadius) ballPosition.dy =- ballPosition.dy; 
 	ballPosition.x += ballPosition.dx; 
 	ballPosition.y += ballPosition.dy
 }
@@ -86,22 +108,6 @@ function moveDown() {
 		playerBlockEl.style.marginTop = playerPosition.y + 'px';
 	}
 }
-
-function debug() {
-	console.log('Player Position: ', playerPosition);
-	console.log('Game Window: ', gameWindow);
-	console.log('Ball Canvas size: ', ballEl.getBoundingClientRect());
-}
-
-function sync() {
-	gameWindow.top = gameWindowEl.getBoundingClientRect().top;
-	gameWindow.bottom = gameWindowEl.getBoundingClientRect().bottom;
-	gameWindow.height = gameWindowEl.getBoundingClientRect().height;
-	init();
-	console.log('Sync window size');
-}
-
-initBall();
 
 function init() {
 	ballEl.height = canvasWrapper.clientHeight;
@@ -144,8 +150,9 @@ function DeltaTimer(render, interval) {
     window.addEventListener("keydown", keydown, false);
 
     function keyup(event) {
-		//sometimes keyCode is undefined
-        keyboard[event.keyCode].pressed = false;
+		if(keyboard[event.keyCode]) {
+			keyboard[event.keyCode].pressed = false;
+		}
     }
 
     function keydown(event) {
@@ -180,6 +187,29 @@ function DeltaTimer(render, interval) {
     }
 })(playerMovementSpeed);
 
+function sync() {
+	gameWindow.top = gameWindowEl.getBoundingClientRect().top;
+	gameWindow.bottom = gameWindowEl.getBoundingClientRect().bottom;
+	gameWindow.height = gameWindowEl.getBoundingClientRect().height;
+	init();
+	console.log('Sync window size');
+}
+
+function sleep(ms) {
+	return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+async function startGame() {
+	let counter = 3;
+	playerReady = true;
+	while(counter >= 0) {
+		gameMenuEl.innerHTML = counter--;
+		await sleep(1000);
+	}
+	start();
+}
+
+initBall();
+
 window.addEventListener('keypressed', detectKey);
-//close if game ended, restart, start menu
 window.onresize = sync;

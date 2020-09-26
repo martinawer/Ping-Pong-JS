@@ -31,7 +31,7 @@ html, body {
   -webkit-box-align: start;
       -ms-flex-align: start;
           align-items: start;
-  z-index: 2;
+  z-index: 3;
 }
 
 #computer-block {
@@ -40,7 +40,30 @@ html, body {
   height: 60px;
   position: absolute;
   right: 0;
+  z-index: 3;
+}
+
+#game-menu {
+  font-family: 'Press Start 2P', cursive;
+  -ms-grid-column: 2;
+      grid-column-start: 2;
+  grid-column-end: 3;
+  -ms-grid-row: 2;
+      grid-row-start: 2;
+  grid-row-end: 3;
   z-index: 2;
+  position: relative;
+  background-color: #363230;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-size: large;
 }
 
 #game-title {
