@@ -14,7 +14,6 @@ const keys = {
 	SPACE: 32
 }
 
-
 // Variables
 let gameWindow = {
 	top: gameWindowEl.getBoundingClientRect().top,
@@ -23,36 +22,36 @@ let gameWindow = {
 	width: gameWindowEl.getBoundingClientRect().width
 }
 
-let playerPosition = {	
+let player = {	
 	y: 0,
 	top: playerBlockEl.getBoundingClientRect().top,
-	height: playerBlockEl.getBoundingClientRect().height
+	height: playerBlockEl.getBoundingClientRect().height,
+	movementSpeed: 20,
+	ready: false
 }
-let ball;
-let playerReady = false;
-let ballRefreshRate = 12; //10 (faster) > 20 (slower) = Movement Speed
-let playerMovementSpeed = 20;
-let ballRadius = 20;
-let ballPosition = {
+let ballCanvas;
+let ball = {
+	speed: 12,
+	radius: 20,
 	x: gameWindow.width/2,
 	y: gameWindow.height/2,
-	dx: 0,
-	dy: 0
+	velocityX: 0,
+	velocityY: 0
 }
 
 function start() {
 	if(Math.random() <= 0.25) {
-		ballPosition.dx = -2;
-		ballPosition.dy = -2;
+		ball.velocityX = -2;
+		ball.velocityY = -2;
 	} else if(Math.random() <= 0.5) {
-		ballPosition.dx = 2;
-		ballPosition.dy = -2;
+		ball.velocityX = 2;
+		ball.velocityY = -2;
 	} else if(Math.random() <= 0.75) {
-		ballPosition.dx = -2;
-		ballPosition.dy = 2;
+		ball.velocityX = -2;
+		ball.velocityY = 2;
 	} else {
-		ballPosition.dx = 0;
-		ballPosition.dy = 0;
+		ball.velocityX = 0;
+		ball.velocityY = 0;
 	}
 	gameMenuEl.style.display = 'none';
 }
@@ -62,50 +61,57 @@ async function detectKey(event) {
 		moveUp();
 	} else if(event.keyCode === keys.ARROW_DOWN) {
 		moveDown();
-	} else if(event.keyCode === keys.SPACE && !playerReady) {
+	} else if(event.keyCode === keys.SPACE && !player.ready) {
 		await startGame();
 	}
 }
 
 function initBall() {
-	ball = ballEl.getContext('2d');
-	setInterval(draw, ballRefreshRate);
+	ballCanvas = ballEl.getContext('2d');
+	setInterval(draw, ball.speed);
 }
 
 function draw() {
-	ball.clearRect(0, 0, gameWindow.width, gameWindow.height);
-	ball.beginPath();
-	ball.fillStyle = '#E3563D';
-	ball.arc(ballPosition.x, ballPosition.y, ballRadius, 0, Math.PI*2, true);
-	ball.closePath();
-	ball.fill();
-	ballPosition.x += ballPosition.dx;
-	ballPosition.y += ballPosition.dy;
+	ballCanvas.clearRect(0, 0, gameWindow.width, gameWindow.height);
+	ballCanvas.beginPath();
+	ballCanvas.fillStyle = '#E3563D';
+	ballCanvas.arc(ball.x, ball.y, ball.radius, 0, Math.PI*2, true);
+	ballCanvas.closePath();
+	ballCanvas.fill();
+	ball.x += ball.velocityX;
+	ball.y += ball.velocityY;
 	checkBoundaries();
 }
 
 function checkBoundaries() {
-	if( (ballPosition.x-ballRadius) < 0 || ballPosition.x>gameWindow.width-ballRadius) ballPosition.dx =- ballPosition.dx; 
-	if( (ballPosition.y-ballRadius) < 0 || ballPosition.y>gameWindow.height-ballRadius) ballPosition.dy =- ballPosition.dy; 
-	ballPosition.x += ballPosition.dx; 
-	ballPosition.y += ballPosition.dy
+	if( (ball.x-ball.radius) < 0 || ball.x>gameWindow.width-ball.radius) ball.velocityX =- ball.velocityX; 
+	if( (ball.y-ball.radius) < 0 || ball.y>gameWindow.height-ball.radius) ball.velocityY =- ball.velocityY; 
+	ball.x += ball.velocityX; 
+	ball.y += ball.velocityY;
 }
 
+// function checkBoundaries() {
+// 	if( (ball.x-ball.radius) < 0 || ball.x> gameWindow.width-ball.radius) resetBall();
+// 	if( (ball.y-ball.radius) < 0 || ball.y> gameWindow.height-ball.radius) resetBall();
+// 	ball.x += ball.velocityX; 
+//  ball.y += ball.velocityY;
+// }
+
 function moveUp() {
-	if(playerPosition.y-playerSpeed <= 0) {
+	if(player.y-playerSpeed <= 0) {
 		playerBlockEl.style.marginTop = 0 + 'px';
 	} else {
-		playerPosition.y -= playerSpeed;
-		playerBlockEl.style.marginTop = playerPosition.y + 'px';
+		player.y -= playerSpeed;
+		playerBlockEl.style.marginTop = player.y + 'px';
 	}
 }
 
 function moveDown() {
-	if((playerPosition.y+playerPosition.height)+playerSpeed >= gameWindow.height) {
-		playerBlockEl.style.marginTop = (gameWindow.height-playerPosition.height) + 'px';
+	if((player.y+player.height)+playerSpeed >= gameWindow.height) {
+		playerBlockEl.style.marginTop = (gameWindow.height-player.height) + 'px';
 	} else {
-		playerPosition.y += playerSpeed;
-		playerBlockEl.style.marginTop = playerPosition.y + 'px';
+		player.y += playerSpeed;
+		playerBlockEl.style.marginTop = player.y + 'px';
 	}
 }
 
@@ -185,7 +191,7 @@ function DeltaTimer(render, interval) {
             key.start = timer.start();
         }
     }
-})(playerMovementSpeed);
+})(player.movementSpeed);
 
 function sync() {
 	gameWindow.top = gameWindowEl.getBoundingClientRect().top;
@@ -201,12 +207,17 @@ function sleep(ms) {
 
 async function startGame() {
 	let counter = 3;
-	playerReady = true;
+	player.ready = true;
 	while(counter >= 0) {
 		gameMenuEl.innerHTML = counter--;
 		await sleep(1000);
 	}
 	start();
+}
+
+function resetBall() {
+	ball.x = gameWindow.width/2;
+	ball.y = gameWindow.height/2;
 }
 
 initBall();
