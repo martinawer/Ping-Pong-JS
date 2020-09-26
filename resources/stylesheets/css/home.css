@@ -1,0 +1,89 @@
+html, body {
+  background: #191716;
+  font-family: Montserrat;
+  font-weight: 400;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+#game {
+  width: 100vw;
+  height: 100vh;
+  background: #191716;
+  text-align: center;
+  position: relative;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 25% 50% 25%;
+      grid-template-columns: 25% 50% 25%;
+  -ms-grid-rows: 10% 60% 30%;
+      grid-template-rows: 10% 60% 30%;
+}
+
+#player-block {
+  background-color: #E3563D;
+  width: 10px;
+  height: 60px;
+  position: absolute;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: start;
+  z-index: 2;
+}
+
+#computer-block {
+  background-color: #E3563D;
+  width: 10px;
+  height: 60px;
+  position: absolute;
+  right: 0;
+  z-index: 2;
+}
+
+#game-title {
+  -ms-grid-column: 1;
+      grid-column-start: 1;
+  grid-column-end: 4;
+  -ms-grid-row: 1;
+      grid-row-start: 1;
+  grid-row-end: 2;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+  font-size: xx-large;
+  color: #E3563D;
+}
+
+#game-window {
+  -ms-grid-column: 2;
+      grid-column-start: 2;
+  grid-column-end: 3;
+  -ms-grid-row: 2;
+      grid-row-start: 2;
+  grid-row-end: 3;
+  height: 100%;
+  width: 100%;
+  position: relative;
+  background: #363230;
+}
+
+#game-ball {
+  -ms-grid-column: 2;
+      grid-column-start: 2;
+  grid-column-end: 3;
+  -ms-grid-row: 2;
+      grid-row-start: 2;
+  grid-row-end: 3;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #363230;
+}
+
+#canvas-wrapper {
+  height: 100%;
+  width: 100%;
+}

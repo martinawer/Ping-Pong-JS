@@ -1,0 +1,79 @@
+@import colors
+  
+html, body
+  background: $tertiary-color
+  font-family: Montserrat
+  font-weight: 400
+  width: 100vw
+  height: 100vh
+  margin: 0
+  padding: 0
+  overflow: hidden
+
+#game
+  width: 100vw
+  height: 100vh
+  background: $tertiary-color
+  text-align: center
+  position: relative
+  display: grid
+  grid-template-columns: 25% 50% 25%
+  grid-template-rows: 10% 60% 30%
+
+#player-block
+  background-color: $primary-color
+  width: 10px
+  height: 60px
+  position: absolute
+  align-items: start
+  z-index: 2
+
+#computer-block
+  background-color: $primary-color
+  width: 10px
+  height: 60px
+  position: absolute
+  right: 0
+  z-index: 2
+
+#game-menu
+  font-family: 'Press Start 2P', cursive
+  grid-column-start: 2
+  grid-column-end: 3
+  grid-row-start: 2
+  grid-row-end: 3
+  z-index: 1
+  position: relative
+
+#game-title
+  grid-column-start: 1
+  grid-column-end: 4
+  grid-row-start: 1
+  grid-row-end: 2
+  align-self: center
+  font-size: xx-large
+  color: $primary-color
+
+#game-window
+  grid-column-start: 2
+  grid-column-end: 3
+  grid-row-start: 2
+  grid-row-end: 3
+  height: 100%
+  width: 100%
+  position: relative
+  background: $secondary-color
+
+#game-ball
+  grid-column-start: 2
+  grid-column-end: 3
+  grid-row-start: 2
+  grid-row-end: 3
+  position: absolute
+  top: 0
+  left: 0
+  background: $secondary-color
+
+#canvas-wrapper
+  height: 100%
+  width: 100%
