@@ -11,7 +11,9 @@ const gameTitelEl = document.getElementById('game-title');
 const keys = {
 	ARROW_UP: 38,
 	ARROW_DOWN: 40,
-	SPACE: 32
+	SPACE: 32,
+	W: 87,
+	S: 83
 }
 
 const gameWindow = {
@@ -64,11 +66,15 @@ const ball = {
 
 async function detectKey(event) {
 	if(event.keyCode === keys.ARROW_UP) {
-		moveUp();
+		moveUp(player, playerBlockEl);
 	} else if(event.keyCode === keys.ARROW_DOWN) {
-		moveDown();
+		moveDown(player, playerBlockEl);
 	} else if(event.keyCode === keys.SPACE && !player.ready) {
 		await startGame();
+	} else if(event.keyCode === keys.W) {
+		moveUp(computer, computerBlockEl);
+	} else if(event.keyCode === keys.S) {
+		moveDown(computer, computerBlockEl);
 	}
 }
 
@@ -99,7 +105,6 @@ async function checkBoundaries() {
 	}
 
 	let lastHit = (ball.x + ball.radius < gameWindow.width/2) ? player : computer;
-
 	let angleRad = 0;
 
 	if(collision(ball, lastHit)) {
@@ -114,11 +119,10 @@ async function checkBoundaries() {
 			direction = (ball.x + ball.radius < ballCanvas.width/2) ? -1 : 1;
 		} else {
 			direction = (ball.x + ball.radius < ballCanvas.width/2) ? 1 : -1;
-
 		}
+
         ball.velocityX = direction * ball.speed * Math.cos(angleRad);
 		ball.velocityY = ball.speed * Math.sin(angleRad);
-
 		ball.speed += 0.3;
 	}
 
@@ -141,21 +145,21 @@ function collision(ball, player) {
     return player.left < ball.right && player.top < ball.bottom && player.right > ball.left && player.bottom > ball.top;
 }
 
-function moveUp() {
+function moveUp(player, playerEl) {
 	if(player.y-player.velocityY <= 0) {
-		playerBlockEl.style.marginTop = 0 + 'px';
+		playerEl.style.marginTop = 0 + 'px';
 	} else {
 		player.y -= player.velocityY;
-		playerBlockEl.style.marginTop = player.y + 'px';
+		playerEl.style.marginTop = player.y + 'px';
 	}
 }
 
-function moveDown() {
+function moveDown(player, playerEl) {
 	if((player.y+player.height)+player.velocityY >= gameWindow.height) {
-		playerBlockEl.style.marginTop = (gameWindow.height-player.height) + 'px';
+		playerEl.style.marginTop = (gameWindow.height-player.height) + 'px';
 	} else {
 		player.y += player.velocityY;
-		playerBlockEl.style.marginTop = player.y + 'px';
+		playerEl.style.marginTop = player.y + 'px';
 	}
 }
 
