@@ -22,19 +22,19 @@ html, body
 
 #player-block
   background-color: $primary-color
-  width: 10px
-  height: 100px
+  width: 1vw
+  height: 20vh
   position: absolute
   align-items: start
-  z-index: 3
+  z-index: 6
 
 #computer-block
   background-color: $primary-color
-  width: 10px
-  height: 100px
+  width: 1vw
+  height: 20vh
   position: absolute
   right: 0
-  z-index: 3
+  z-index: 6
 
 #game-menu
   font-family: 'Press Start 2P', cursive
@@ -42,13 +42,40 @@ html, body
   grid-column-end: 3
   grid-row-start: 2
   grid-row-end: 3
-  z-index: 2
-  position: relative
+  z-index: 5
+
   background-color: $menu-color
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display: flex
+  justify-content: center
+  align-items: center
   font-size: large
+
+#scoreboard
+  font-family: 'Press Start 2P', cursive
+  font-size: xx-large
+  z-index: 3
+  display: flex
+  justify-content: center
+  grid-column-start: 2
+  grid-column-end: 3
+  grid-row-start: 2
+  grid-row-end: 3
+
+#player-score, #computer-score
+  width: 5vw
+  margin-top: 1vh
+
+
+#middle-line
+  border-right: 4px dashed $tertiary-color
+  grid-column-start: 2
+  grid-column-end: 3
+  grid-row-start: 2
+  grid-row-end: 3
+  color: $primary-color
+  transform: translate(-50%);
+  z-index: 4
+
 
 #game-title
   grid-column-start: 1

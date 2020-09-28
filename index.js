@@ -1,59 +1,65 @@
-//Constants
 const playerBlockEl = document.getElementById('player-block');
-const comuterBlockEl = document.getElementById('computer-block');
+const computerBlockEl = document.getElementById('computer-block');
 const gameWindowEl = document.getElementById('game-window');
-const titleEl = document.getElementById('game-title');
 const ballEl = document.getElementById('game-ball');
 const canvasWrapper = document.getElementById('canvas-wrapper');
 const gameMenuEl = document.getElementById('game-menu');
+const playerScoreEl = document.getElementById('player-score');
+const computerScoreEl = document.getElementById('computer-score');
+const gameTitelEl = document.getElementById('game-title');
 
-const playerSpeed = 7.5;
 const keys = {
 	ARROW_UP: 38,
 	ARROW_DOWN: 40,
 	SPACE: 32
 }
 
-// Variables
-let gameWindow = {
+const gameWindow = {
 	top: gameWindowEl.getBoundingClientRect().top,
 	bottom: gameWindowEl.getBoundingClientRect().bottom,
 	height: gameWindowEl.getBoundingClientRect().height,
 	width: gameWindowEl.getBoundingClientRect().width
 }
 
-let player = {	
+const player = {
+	name: 'player',	
+	x: 0,	
 	y: 0,
+	velocityY: 8,
+	speed: 20,
 	top: playerBlockEl.getBoundingClientRect().top,
+	bottom: playerBlockEl.getBoundingClientRect().bottom,
 	height: playerBlockEl.getBoundingClientRect().height,
-	movementSpeed: 20,
+	width: playerBlockEl.getBoundingClientRect().width,
+	score: 0,
 	ready: false
 }
-let ballCanvas;
-let ball = {
-	speed: 12,
-	radius: 20,
-	x: gameWindow.width/2,
-	y: gameWindow.height/2,
-	velocityX: 0,
-	velocityY: 0
+
+const leftGridCellWidth = computerBlockEl.getBoundingClientRect().x-gameWindow.width;
+const topGridCellHeight = gameTitelEl.getBoundingClientRect().height;
+
+const computer = {
+	name: 'computer',
+	x: computerBlockEl.getBoundingClientRect().x-leftGridCellWidth-computerBlockEl.getBoundingClientRect().width,	
+	y: computerBlockEl.getBoundingClientRect().y-topGridCellHeight,
+	velocityY: 8,
+	speed: 20,
+	top: computerBlockEl.getBoundingClientRect().top,
+	bottom: computerBlockEl.getBoundingClientRect().bottom,
+	height: computerBlockEl.getBoundingClientRect().height,
+	width: computerBlockEl.getBoundingClientRect().width,
+	score: 0
 }
 
-function start() {
-	if(Math.random() <= 0.25) {
-		ball.velocityX = -2;
-		ball.velocityY = -2;
-	} else if(Math.random() <= 0.5) {
-		ball.velocityX = 2;
-		ball.velocityY = -2;
-	} else if(Math.random() <= 0.75) {
-		ball.velocityX = -2;
-		ball.velocityY = 2;
-	} else {
-		ball.velocityX = 0;
-		ball.velocityY = 0;
-	}
-	gameMenuEl.style.display = 'none';
+let ballCanvas;
+const ball = {
+	refreshIntervalMs: 20,
+	radius: 10,
+	speed: 5,
+	x: gameWindow.width/2,
+	y: gameWindow.height/2,
+	velocityX: 4,
+	velocityY: 4
 }
 
 async function detectKey(event) {
@@ -66,59 +72,91 @@ async function detectKey(event) {
 	}
 }
 
-function initBall() {
-	ballCanvas = ballEl.getContext('2d');
-	setInterval(draw, ball.speed);
-}
 
-function draw() {
+
+async function draw() {
 	ballCanvas.clearRect(0, 0, gameWindow.width, gameWindow.height);
 	ballCanvas.beginPath();
 	ballCanvas.fillStyle = '#E3563D';
 	ballCanvas.arc(ball.x, ball.y, ball.radius, 0, Math.PI*2, true);
 	ballCanvas.closePath();
 	ballCanvas.fill();
+	await checkBoundaries();
+}
+
+async function checkBoundaries() {
+	if( (ball.x-ball.radius) < 0 ) {
+		computerScoreEl.innerHTML = ++computer.score;
+		resetBall();
+	} else if (ball.x> gameWindow.width-ball.radius) {
+		playerScoreEl.innerHTML = ++player.score;
+		resetBall();
+	}
+
+
+	if( (ball.y-ball.radius) < 0 || ball.y> gameWindow.height-ball.radius) {
+		ball.velocityY = -ball.velocityY;
+	}
+
+	let lastHit = (ball.x + ball.radius < gameWindow.width/2) ? player : computer;
+
+	let angleRad = 0;
+
+	if(collision(ball, lastHit)) {
+		let collidePoint = (ball.y - (lastHit.y + lastHit.height/2));
+		collidePoint = collidePoint / (lastHit.height/2);
+
+		angleRad = (Math.PI/4) * collidePoint;
+
+		// change the X and Y velocity direction
+		let direction;
+		if(lastHit.name === 'player') {
+			direction = (ball.x + ball.radius < ballCanvas.width/2) ? -1 : 1;
+		} else {
+			direction = (ball.x + ball.radius < ballCanvas.width/2) ? 1 : -1;
+
+		}
+        ball.velocityX = direction * ball.speed * Math.cos(angleRad);
+		ball.velocityY = ball.speed * Math.sin(angleRad);
+
+		ball.speed += 0.3;
+	}
+
 	ball.x += ball.velocityX;
-	ball.y += ball.velocityY;
-	checkBoundaries();
+    ball.y += ball.velocityY;
+
 }
 
-function checkBoundaries() {
-	if( (ball.x-ball.radius) < 0 || ball.x>gameWindow.width-ball.radius) ball.velocityX =- ball.velocityX; 
-	if( (ball.y-ball.radius) < 0 || ball.y>gameWindow.height-ball.radius) ball.velocityY =- ball.velocityY; 
-	ball.x += ball.velocityX; 
-	ball.y += ball.velocityY;
-}
+function collision(ball, player) {
+	player.top = player.y;
+    player.bottom = player.y + player.height;
+    player.left = player.x;
+    player.right = player.x + player.width;
+    
+    ball.top = ball.y - ball.radius;
+    ball.bottom = ball.y + ball.radius;
+    ball.left = ball.x - ball.radius;
+	ball.right = ball.x + ball.radius;
 
-// function checkBoundaries() {
-// 	if( (ball.x-ball.radius) < 0 || ball.x> gameWindow.width-ball.radius) resetBall();
-// 	if( (ball.y-ball.radius) < 0 || ball.y> gameWindow.height-ball.radius) resetBall();
-// 	ball.x += ball.velocityX; 
-//  ball.y += ball.velocityY;
-// }
+    return player.left < ball.right && player.top < ball.bottom && player.right > ball.left && player.bottom > ball.top;
+}
 
 function moveUp() {
-	if(player.y-playerSpeed <= 0) {
+	if(player.y-player.velocityY <= 0) {
 		playerBlockEl.style.marginTop = 0 + 'px';
 	} else {
-		player.y -= playerSpeed;
+		player.y -= player.velocityY;
 		playerBlockEl.style.marginTop = player.y + 'px';
 	}
 }
 
 function moveDown() {
-	if((player.y+player.height)+playerSpeed >= gameWindow.height) {
+	if((player.y+player.height)+player.velocityY >= gameWindow.height) {
 		playerBlockEl.style.marginTop = (gameWindow.height-player.height) + 'px';
 	} else {
-		player.y += playerSpeed;
+		player.y += player.velocityY;
 		playerBlockEl.style.marginTop = player.y + 'px';
 	}
-}
-
-function init() {
-	ballEl.height = canvasWrapper.clientHeight;
-	ballEl.width = canvasWrapper.clientWidth;
-	console.log('Init');
 }
 
 function DeltaTimer(render, interval) {
@@ -191,36 +229,49 @@ function DeltaTimer(render, interval) {
             key.start = timer.start();
         }
     }
-})(player.movementSpeed);
+})(player.speed);
 
 function sync() {
 	gameWindow.top = gameWindowEl.getBoundingClientRect().top;
 	gameWindow.bottom = gameWindowEl.getBoundingClientRect().bottom;
 	gameWindow.height = gameWindowEl.getBoundingClientRect().height;
 	init();
-	console.log('Sync window size');
 }
 
 function sleep(ms) {
 	return new Promise(resolve => setTimeout(resolve, ms));
-  }
+}
+
+function resetBall() {
+	ball.x = gameWindow.width/2;
+	ball.y = gameWindow.height/2;
+	ball.velocityX = ball.velocityX < 0 ? 4 : -4;
+	ball.refreshIntervalMs = 20;
+	ball.speed = 5;
+}
+
+function init() {
+	ballEl.height = canvasWrapper.clientHeight;
+	ballEl.width = canvasWrapper.clientWidth;
+}
 
 async function startGame() {
 	let counter = 3;
 	player.ready = true;
 	while(counter >= 0) {
 		gameMenuEl.innerHTML = counter--;
-		await sleep(1000);
+		await sleep(10);
 	}
-	start();
+
+	await initBall();
 }
 
-function resetBall() {
-	ball.x = gameWindow.width/2;
-	ball.y = gameWindow.height/2;
-}
+async function initBall() {
+	ballCanvas = ballEl.getContext('2d');
+	setInterval(await draw, ball.refreshIntervalMs);
 
-initBall();
+	gameMenuEl.style.display = 'none';
+}
 
 window.addEventListener('keypressed', detectKey);
 window.onresize = sync;

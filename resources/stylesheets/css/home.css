@@ -25,22 +25,22 @@ html, body {
 
 #player-block {
   background-color: #E3563D;
-  width: 10px;
-  height: 100px;
+  width: 1vw;
+  height: 20vh;
   position: absolute;
   -webkit-box-align: start;
       -ms-flex-align: start;
           align-items: start;
-  z-index: 3;
+  z-index: 6;
 }
 
 #computer-block {
   background-color: #E3563D;
-  width: 10px;
-  height: 100px;
+  width: 1vw;
+  height: 20vh;
   position: absolute;
   right: 0;
-  z-index: 3;
+  z-index: 6;
 }
 
 #game-menu {
@@ -51,8 +51,7 @@ html, body {
   -ms-grid-row: 2;
       grid-row-start: 2;
   grid-row-end: 3;
-  z-index: 2;
-  position: relative;
+  z-index: 5;
   background-color: #363230;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -64,6 +63,43 @@ html, body {
       -ms-flex-align: center;
           align-items: center;
   font-size: large;
+}
+
+#scoreboard {
+  font-family: 'Press Start 2P', cursive;
+  font-size: xx-large;
+  z-index: 3;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -ms-grid-column: 2;
+      grid-column-start: 2;
+  grid-column-end: 3;
+  -ms-grid-row: 2;
+      grid-row-start: 2;
+  grid-row-end: 3;
+}
+
+#player-score, #computer-score {
+  width: 5vw;
+  margin-top: 1vh;
+}
+
+#middle-line {
+  border-right: 4px dashed #191716;
+  -ms-grid-column: 2;
+      grid-column-start: 2;
+  grid-column-end: 3;
+  -ms-grid-row: 2;
+      grid-row-start: 2;
+  grid-row-end: 3;
+  color: #E3563D;
+  -webkit-transform: translate(-50%);
+          transform: translate(-50%);
+  z-index: 4;
 }
 
 #game-title {
