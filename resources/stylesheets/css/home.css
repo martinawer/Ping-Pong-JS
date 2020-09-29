@@ -23,7 +23,7 @@ html, body {
       grid-template-rows: 10% 60% 30%;
 }
 
-#player-block {
+#player1-block {
   background-color: #E3563D;
   width: 1vw;
   height: 20vh;
@@ -34,7 +34,7 @@ html, body {
   z-index: 6;
 }
 
-#computer-block {
+#player2-block {
   background-color: #E3563D;
   width: 1vw;
   height: 20vh;
@@ -63,6 +63,8 @@ html, body {
       -ms-flex-align: center;
           align-items: center;
   font-size: large;
+  line-height: 200%;
+  font-variant: small-caps;
 }
 
 #scoreboard {
@@ -83,7 +85,7 @@ html, body {
   grid-row-end: 3;
 }
 
-#player-score, #computer-score {
+#player1-score, #player2-score {
   width: 5vw;
   margin-top: 1vh;
 }
