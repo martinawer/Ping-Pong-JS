@@ -20,63 +20,6 @@ html, body
   grid-template-columns: 25% 50% 25%
   grid-template-rows: 10% 60% 30%
 
-#player-block
-  background-color: $primary-color
-  width: 1vw
-  height: 20vh
-  position: absolute
-  align-items: start
-  z-index: 6
-
-#computer-block
-  background-color: $primary-color
-  width: 1vw
-  height: 20vh
-  position: absolute
-  right: 0
-  z-index: 6
-
-#game-menu
-  font-family: 'Press Start 2P', cursive
-  grid-column-start: 2
-  grid-column-end: 3
-  grid-row-start: 2
-  grid-row-end: 3
-  z-index: 5
-
-  background-color: $menu-color
-  display: flex
-  justify-content: center
-  align-items: center
-  font-size: large
-
-#scoreboard
-  font-family: 'Press Start 2P', cursive
-  font-size: xx-large
-  z-index: 3
-  display: flex
-  justify-content: center
-  grid-column-start: 2
-  grid-column-end: 3
-  grid-row-start: 2
-  grid-row-end: 3
-
-#player-score, #computer-score
-  width: 5vw
-  margin-top: 1vh
-
-
-#middle-line
-  border-right: 4px dashed $tertiary-color
-  grid-column-start: 2
-  grid-column-end: 3
-  grid-row-start: 2
-  grid-row-end: 3
-  color: $primary-color
-  transform: translate(-50%);
-  z-index: 4
-
-
 #game-title
   grid-column-start: 1
   grid-column-end: 4
@@ -96,9 +39,31 @@ html, body
   position: relative
   background: $secondary-color
 
+#player1-block
+  background-color: $primary-color
+  width: 1vw
+  height: 20vh
+  position: absolute
+  align-items: start
+  z-index: 6
+
+#player2-block
+  background-color: $primary-color
+  width: 1vw
+  height: 20vh
+  position: absolute
+  right: 0
+  z-index: 6
+
+#canvas-wrapper
+  height: 100%
+  width: 100%
+
 #game-ball
+  -ms-grid-column: 2
   grid-column-start: 2
   grid-column-end: 3
+  -ms-grid-row: 2
   grid-row-start: 2
   grid-row-end: 3
   position: absolute
@@ -106,6 +71,42 @@ html, body
   left: 0
   background: $secondary-color
 
-#canvas-wrapper
-  height: 100%
-  width: 100%
+#scoreboard
+  font-family: 'Press Start 2P', cursive
+  font-size: xx-large
+  z-index: 3
+  display: flex
+  justify-content: center
+  grid-column-start: 2
+  grid-column-end: 3
+  grid-row-start: 2
+  grid-row-end: 3
+
+#player1-score, #player2-score
+  width: 5vw
+  margin-top: 1vh
+
+#game-menu
+  font-family: 'Press Start 2P', cursive
+  grid-column-start: 2
+  grid-column-end: 3
+  grid-row-start: 2
+  grid-row-end: 3
+  z-index: 5
+  background-color: $secondary-color
+  display: flex
+  justify-content: center
+  align-items: center
+  font-size: large
+  line-height: 200%
+  font-variant: small-caps
+
+#middle-line
+  border-right: 4px dashed $tertiary-color
+  grid-column-start: 2
+  grid-column-end: 3
+  grid-row-start: 2
+  grid-row-end: 3
+  color: $primary-color
+  transform: translate(-50%)
+  z-index: 4

@@ -8,6 +8,10 @@ class Player {
 		}
 	}
 
+	move() {
+
+	}
+
 	moveUp(playerEl) {
 		if(this.y-this.velocityY <= 0) {
 			playerEl.style.marginTop = 0 + 'px';
@@ -32,6 +36,7 @@ class Player {
 		this.y = 0;
 		this.velocityY = 8,
 		this.speed =  10,
+		//this.properties = playerEl.getBoundingClient();
 		this.top = playerEl.getBoundingClientRect().top,
 		this.bottom = playerEl.getBoundingClientRect().bottom,
 		this.height =  playerEl.getBoundingClientRect().height,

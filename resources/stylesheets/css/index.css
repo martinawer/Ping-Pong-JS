@@ -23,87 +23,6 @@ html, body {
       grid-template-rows: 10% 60% 30%;
 }
 
-#player1-block {
-  background-color: #E3563D;
-  width: 1vw;
-  height: 20vh;
-  position: absolute;
-  -webkit-box-align: start;
-      -ms-flex-align: start;
-          align-items: start;
-  z-index: 6;
-}
-
-#player2-block {
-  background-color: #E3563D;
-  width: 1vw;
-  height: 20vh;
-  position: absolute;
-  right: 0;
-  z-index: 6;
-}
-
-#game-menu {
-  font-family: 'Press Start 2P', cursive;
-  -ms-grid-column: 2;
-      grid-column-start: 2;
-  grid-column-end: 3;
-  -ms-grid-row: 2;
-      grid-row-start: 2;
-  grid-row-end: 3;
-  z-index: 5;
-  background-color: #363230;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  font-size: large;
-  line-height: 200%;
-  font-variant: small-caps;
-}
-
-#scoreboard {
-  font-family: 'Press Start 2P', cursive;
-  font-size: xx-large;
-  z-index: 3;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -ms-grid-column: 2;
-      grid-column-start: 2;
-  grid-column-end: 3;
-  -ms-grid-row: 2;
-      grid-row-start: 2;
-  grid-row-end: 3;
-}
-
-#player1-score, #player2-score {
-  width: 5vw;
-  margin-top: 1vh;
-}
-
-#middle-line {
-  border-right: 4px dashed #191716;
-  -ms-grid-column: 2;
-      grid-column-start: 2;
-  grid-column-end: 3;
-  -ms-grid-row: 2;
-      grid-row-start: 2;
-  grid-row-end: 3;
-  color: #E3563D;
-  -webkit-transform: translate(-50%);
-          transform: translate(-50%);
-  z-index: 4;
-}
-
 #game-title {
   -ms-grid-column: 1;
       grid-column-start: 1;
@@ -131,12 +50,37 @@ html, body {
   background: #363230;
 }
 
+#player1-block {
+  background-color: #E3563D;
+  width: 1vw;
+  height: 20vh;
+  position: absolute;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: start;
+  z-index: 6;
+}
+
+#player2-block {
+  background-color: #E3563D;
+  width: 1vw;
+  height: 20vh;
+  position: absolute;
+  right: 0;
+  z-index: 6;
+}
+
+#canvas-wrapper {
+  height: 100%;
+  width: 100%;
+}
+
 #game-ball {
   -ms-grid-column: 2;
-      grid-column-start: 2;
+  grid-column-start: 2;
   grid-column-end: 3;
   -ms-grid-row: 2;
-      grid-row-start: 2;
+  grid-row-start: 2;
   grid-row-end: 3;
   position: absolute;
   top: 0;
@@ -144,7 +88,63 @@ html, body {
   background: #363230;
 }
 
-#canvas-wrapper {
-  height: 100%;
-  width: 100%;
+#scoreboard {
+  font-family: 'Press Start 2P', cursive;
+  font-size: xx-large;
+  z-index: 3;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -ms-grid-column: 2;
+      grid-column-start: 2;
+  grid-column-end: 3;
+  -ms-grid-row: 2;
+      grid-row-start: 2;
+  grid-row-end: 3;
+}
+
+#player1-score, #player2-score {
+  width: 5vw;
+  margin-top: 1vh;
+}
+
+#game-menu {
+  font-family: 'Press Start 2P', cursive;
+  -ms-grid-column: 2;
+      grid-column-start: 2;
+  grid-column-end: 3;
+  -ms-grid-row: 2;
+      grid-row-start: 2;
+  grid-row-end: 3;
+  z-index: 5;
+  background-color: #363230;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-size: large;
+  line-height: 200%;
+  font-variant: small-caps;
+}
+
+#middle-line {
+  border-right: 4px dashed #191716;
+  -ms-grid-column: 2;
+      grid-column-start: 2;
+  grid-column-end: 3;
+  -ms-grid-row: 2;
+      grid-row-start: 2;
+  grid-row-end: 3;
+  color: #E3563D;
+  -webkit-transform: translate(-50%);
+          transform: translate(-50%);
+  z-index: 4;
 }
