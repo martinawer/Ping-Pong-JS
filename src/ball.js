@@ -19,6 +19,7 @@ class Ball {
 	setBallSize() {
 		this._ballEl.height = this._canvasWrapper.height;
 		this._ballEl.width = this._canvasWrapper.width;
+		return this;
 	}
 
 	draw() {
@@ -28,6 +29,7 @@ class Ball {
 		this.canvas.arc(this.x, this.y, this.radius, 0, Math.PI*2, true);
 		this.canvas.closePath();
 		this.canvas.fill();
+		return this;
 	}
 	
 	resetBall() {
@@ -36,6 +38,7 @@ class Ball {
 		this.velocityX = this.velocityX < 0 ? 4 : -4;
 		this.velocityY = 0;
 		this.speed = 5;
+		return this;
 	}
 
 }

@@ -34,7 +34,7 @@ function checkBoundaries(ball, player) {
 	}
 
 	if((ball.y += ball.velocityY) > ball._canvasWrapper.clientHeight) {
-		ball.y = ball._canvasWrapper.clientHeight-0.5;
+		ball.y = ball._canvasWrapper.clientHeight-1;
 	} else {
 		ball.x += ball.velocityX;
 		ball.y += ball.velocityY;

@@ -1,39 +1,55 @@
 <!doctype html>
-<html lang="de">
+<html lang='de'>
 <head>
-	<meta charset="UTF-8">
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400&display=swap">
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"> 
-	<link rel="stylesheet" href="/resources/stylesheets/css/index.css"></link>
+	<meta charset='UTF-8'>
+	<link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400&display=swap'>
+	<link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap'> 
+	<link rel='stylesheet' href='/resources/stylesheets/css/index.css'></link>
 
     <title>Ping Pong</title>
 </head>
 
 <body>
 
-	<section id="game">
-		<div id="game-title">Ping-Pong</div>
+	<section id='game'>
+		<div id='game-title'>Ping-Pong</div>
 
-		<div id="game-window">
+		<div id='game-window'>
 			<div id='player1-block'></div>
 			<div id='player2-block'></div>
 
-			<div id="canvas-wrapper">
-				<canvas id="game-ball"></canvas>
+			<div id='canvas-wrapper'>
+				<canvas id='game-ball'></canvas>
 			</div>
 			
 		</div>
 
-		<div id="scoreboard">
-			<div id="player1-score">0</div>
-			<div id="player2-score">0</div>
+		<div id='scoreboard'>
+			<div id='player1-score'>0</div>
+			<div id='player2-score'>0</div>
 		</div>
 
-		<div id="game-menu">Press Space for 2-Player</div>
-		<div id="middle-line"></div>
+		<div id='game-menu'>
+			<form id='gameMode-list'>
+				<h1>Ping Pong JS</h1>
+				<label>
+					<input type="radio" name='gameMode' id='1player'/>
+					<i></i>
+					<span>1-Player</span>
+				</label>
+				<label>
+					<input type="radio" name='gameMode' id='2player' checked='checked'>
+					<i></i>
+					<span>2-Player</span>
+				</label>
+					<h3 id='start-btn'>Start</h3>
+			</form>
+		</div>
+
+		<div id='middle-line'></div>
 		
 	</section>
 
-	<script type="module" src="index.js"></script>
+	<script type='module' src='index.js'></script>
 </body>
 </html>

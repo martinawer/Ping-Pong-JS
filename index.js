@@ -7,4 +7,10 @@ initKeypressedEvent(18);
 window.onresize = () => game.sync();
 window.addEventListener('keypressed', (event) => game.detectKey(event));
 
-export { game as gameInstance };
+document.addEventListener('click', (event) => startGame(event));
+
+function startGame(event) {
+	if(event.target.id === 'start-btn') {
+		game.start();
+	}
+}

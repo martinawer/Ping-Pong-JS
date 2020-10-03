@@ -1,5 +1,6 @@
 import { Ball } from './ball.js';
 import { Player } from './player.js'
+import { Menu } from './menu.js';
 import { keys } from './enum/keys.js';
 import { sleep } from './util.js';
 import { Scoreboard } from './scoreboard.js';
@@ -13,17 +14,18 @@ class GameBoard {
 	_player2El = document.getElementById('player2-block');
 	_gameMenuEl = document.getElementById('game-menu');
 
-	ball;	 //Ping Pong Ball
-	player1; //User
-	player2; //Second User or Computer
+	ball;
+	player1;
+	player2;
 	field = this._fieldEl.getBoundingClientRect();
 	scoreBoard = new Scoreboard(0, 0);
+	menu = new Menu();
 
 	constructor() {
 		this.player1 = new Player(this._player1El, 'player1');
 		this.player2 = new Player(this._player2El, 'player2');
-		this.ball = new Ball();
-		this.ball.setBallSize();
+		this.ball = new Ball().setBallSize().draw();
+		this.ball.setBallSize().draw();
 	}
 
 	sync() {
@@ -56,7 +58,7 @@ class GameBoard {
 	async start() {
 		await this._countdown();
 		setInterval(async () => { await this._update() }, 1000/60);
-		this._gameMenuEl.style.display = 'none';
+		this.menu.hide();
 	}
 
 	async _countdown() {
