@@ -8,11 +8,15 @@ class Player {
 		}
 	}
 
-	move() {
-
+	move(direction, playerEl, maxHeight) {
+		if(direction === 'UP') {
+			this._moveUp(playerEl);
+		} else {
+			this._moveDown(playerEl, maxHeight);
+		}
 	}
 
-	moveUp(playerEl) {
+	_moveUp(playerEl) {
 		if(this.y-this.velocityY <= 0) {
 			playerEl.style.marginTop = 0 + 'px';
 		} else {
@@ -21,7 +25,7 @@ class Player {
 		}
 	}
 	
-	moveDown(playerEl, maxHeight) {
+	_moveDown(playerEl, maxHeight) {
 		if((this.y+this.height)+this.velocityY >= maxHeight) {
 			playerEl.style.marginTop = (maxHeight-this.height) + 'px';
 		} else {

@@ -4,7 +4,6 @@ const keys = {
 	SPACE: 32,
 	W: 87,
 	S: 83,
-	2: 50,
 }
 
 export { keys };

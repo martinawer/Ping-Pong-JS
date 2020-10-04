@@ -11,14 +11,13 @@ function checkBoundaries(ball, player) {
 	}
 	
 	let angleRad = 0;
-
+	let direction;
 	if(collision(ball, player)) {
 		let collidePoint = (ball.y - (player.y + player.height/2));
 		collidePoint = collidePoint / (player.height/2);
 
 		angleRad = (Math.PI/4) * collidePoint;
 
-		let direction;
 		if(player.type === 'player1') {
 			direction = (ball.x + ball.radius < ball.canvas.width/2) ? -1 : 1;
 		} else {
@@ -29,12 +28,12 @@ function checkBoundaries(ball, player) {
 		ball.velocityY = ball.speed * Math.sin(angleRad);
 
 		if(ball.speed < ball.maxSpeed) {
-			ball.speed += 0.5;
+			ball.speed += 0.2;
 		}
 	}
 
 	if((ball.y += ball.velocityY) > ball._canvasWrapper.clientHeight) {
-		ball.y = ball._canvasWrapper.clientHeight-1;
+		ball.y = ball._canvasWrapper.clientHeight- (1*direction);
 	} else {
 		ball.x += ball.velocityX;
 		ball.y += ball.velocityY;

@@ -1,6 +1,6 @@
 const gameModes = {
-	singlePlayer: 'SinglePlayer',
-	multiPlayer: 'MultiPlayer'
+	singlePlayer: '1Player',
+	multiPlayer: '2Player'
 }
 
 export { gameModes };

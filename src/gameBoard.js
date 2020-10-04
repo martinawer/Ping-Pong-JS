@@ -1,10 +1,10 @@
 import { Ball } from './ball.js';
 import { Player } from './player.js'
 import { Menu } from './menu.js';
-import { keys } from './enum/keys.js';
-import { sleep } from './util.js';
+import { sleep } from './utils/helper.js';
 import { Scoreboard } from './scoreboard.js';
-import { checkBoundaries } from './boundariesChecker.js';
+import { checkBoundaries } from './utils/boundariesChecker.js';
+import { Keyboard } from './keyboard.js';
 
 
 class GameBoard {
@@ -14,18 +14,23 @@ class GameBoard {
 	_player2El = document.getElementById('player2-block');
 	_gameMenuEl = document.getElementById('game-menu');
 
-	ball;
-	player1;
-	player2;
-	field = this._fieldEl.getBoundingClientRect();
-	scoreBoard = new Scoreboard(0, 0);
-	menu = new Menu();
-
 	constructor() {
 		this.player1 = new Player(this._player1El, 'player1');
 		this.player2 = new Player(this._player2El, 'player2');
 		this.ball = new Ball().setBallSize().draw();
-		this.ball.setBallSize().draw();
+		this.field = this._fieldEl.getBoundingClientRect();
+		this.scoreBoard = new Scoreboard(0, 0);
+		this.menu = new Menu();
+		this.keyboard = new Keyboard();	
+		this._attachEventListener();
+	}
+
+	_attachEventListener() {
+		window.addEventListener(this.keyboard.getListenerKey(), (event) => this.detectKey(event));
+	}
+
+	_detachEventListener() {
+		window.removeEventListener(this.keyboard.getListenerKey(), (event) => this.detectKey(event));
 	}
 
 	sync() {
@@ -33,26 +38,16 @@ class GameBoard {
 		this.ball.setBallSize();
 	}
 
-	async detectKey(event) {
-		switch(event.keyCode) {
-			case keys.ARROW_UP:
-				this.player2.moveUp(this._player2El);
-				break;
-			case keys.ARROW_DOWN:
-				this.player2.moveDown(this._player2El, this.field.height);
-				break;
-			case keys.SPACE:
-				if(!this.player1.ready) {
-					await this.start();
-				}
-				break;
-			case keys.W:
-				this.player1.moveUp(this._player1El);
-				break;
-			case keys.S:
-				this.player1.moveDown(this._player1El, this.field.height);
-				break;
+	detectKey(event) { //TODO: is now dependent from gameBoard and not from keyboard, keyboard mode or gamemode (Needs change)
+		let state = this.keyboard.detectKey(event);
+		if(state === 'Start') {
+			this._detachEventListener();
+			this.keyboard.setMode('2Player');
+			this._attachEventListener();
+			this.start();
 		}
+		else if(state.player === 'Player1') this.player1.move(state.direction, this._player1El, this.field.height);
+		else if(state.player === 'Player2') this.player2.move(state.direction, this._player2El, this.field.height);
 	}
 
 	async start() {

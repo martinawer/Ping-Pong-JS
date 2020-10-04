@@ -1,4 +1,4 @@
-import { DeltaTimer } from '../deltaTimer.js';
+import { DeltaTimer } from '../utils/deltaTimer.js';
 
 function initKeypressedEvent(interval) {
     let keyboard = {};
@@ -44,4 +44,9 @@ function initKeypressedEvent(interval) {
     }
 };
 
-export { initKeypressedEvent };
+function terminateKeypressedEvent() {
+    window.removeEventListener("keyup", keyup, false);
+    window.removeEventListener("keydown", keydown, false);
+}
+
+export { initKeypressedEvent, terminateKeypressedEvent };
