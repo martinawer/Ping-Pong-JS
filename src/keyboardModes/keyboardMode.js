@@ -13,6 +13,10 @@ class KeyboardMode {
 		throw new Error('No Keyboard Mode specified.');
 	}
 
+	terminate() {
+		throw new Error('No Keyboard Mode specified.');
+	}
+
 }
 
 export { KeyboardMode };

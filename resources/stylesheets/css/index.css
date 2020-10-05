@@ -1,3 +1,8 @@
+export {
+  primaryColor: #E3563D;
+  backgroundColor: #E5E5E5;
+}
+
 html, body {
   background: #191716;
   font-family: Montserrat;

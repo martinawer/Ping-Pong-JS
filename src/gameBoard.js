@@ -5,6 +5,7 @@ import { sleep } from './utils/helper.js';
 import { Scoreboard } from './scoreboard.js';
 import { checkBoundaries } from './utils/boundariesChecker.js';
 import { Keyboard } from './keyboard.js';
+import { gameModes } from './enum/gameModes.js';
 
 
 class GameBoard {
@@ -40,14 +41,31 @@ class GameBoard {
 
 	detectKey(event) { //TODO: is now dependent from gameBoard and not from keyboard, keyboard mode or gamemode (Needs change)
 		let state = this.keyboard.detectKey(event);
-		if(state === 'Start') {
-			this._detachEventListener();
-			this.keyboard.setMode('2Player');
-			this._attachEventListener();
-			this.start();
+		if(state) {
+			if(state === 'Start') {
+				this.prepare();
+				this.start();
+			}
+			else if(state.player === 'Player1') this.player1.move(state.direction, this._player1El, this.field.height);
+			else if(state.player === 'Player2') this.player2.move(state.direction, this._player2El, this.field.height);
 		}
-		else if(state.player === 'Player1') this.player1.move(state.direction, this._player1El, this.field.height);
-		else if(state.player === 'Player2') this.player2.move(state.direction, this._player2El, this.field.height);
+	}
+
+	prepare() {
+		this._detachEventListener();
+		const gameMode = this.getCheckedRadioButtonValue();
+		this.keyboard.setMode(gameMode);
+		this._attachEventListener();
+	}
+
+	getCheckedRadioButtonValue() {
+		const radioButtons = document.querySelectorAll('input[name="gameMode"]');
+		console.log(radioButtons);
+		for(const rbtn of radioButtons) {
+			if(rbtn.checked) {
+				return rbtn.value;
+			}
+		}
 	}
 
 	async start() {

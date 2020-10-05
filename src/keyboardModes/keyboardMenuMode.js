@@ -12,6 +12,8 @@ class KeyboardMenuMode extends KeyboardMode {
 		this._optionEl.style.color = '#E3563D';
 	}
 
+	init() {}
+
 	detectKey(event) {
 		if(event.keyCode === keys.W || event.keyCode === keys.ARROW_UP) {
 			this._moveToNext(this._optionEl.previousElementSibling);
@@ -30,6 +32,8 @@ class KeyboardMenuMode extends KeyboardMode {
 			element.style.color = '#E3563D';
 		}
 	}
+
+	terminiate() {}
 
 }
 

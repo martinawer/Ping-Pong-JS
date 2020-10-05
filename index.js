@@ -7,6 +7,7 @@ document.addEventListener('click', (event) => startGame(event));
 
 function startGame(event) {
 	if(event.target.id === 'start-btn') {
+		game.prepare();
 		game.start();
 	}
 }
