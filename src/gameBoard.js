@@ -14,6 +14,10 @@ class GameBoard {
 	_player1El = document.getElementById('player1-block');
 	_player2El = document.getElementById('player2-block');
 	_gameMenuEl = document.getElementById('game-menu');
+	_countdownMessageEl = document.getElementById('countdown-message');
+	_updateInterval;
+
+	currentGameMode;
 
 	constructor() {
 		this.player1 = new Player(this._player1El, 'player1');
@@ -26,6 +30,50 @@ class GameBoard {
 		this._attachEventListener();
 	}
 
+	sync() {
+		this.field = this._fieldEl.getBoundingClientRect();
+		this.ball.setBallSize();
+	}
+
+	detectKey(event) { //TODO: should depend on keyboard/keyboardMode (Needs change)
+		let state = this.keyboard.detectKey(event);
+		if(state) {
+			if(state === 'Start') {
+				this.prepare();
+				this.start();
+			} else if(state === 'New Game') {
+				this.keyboard.setMode(this.currentGameMode);
+				this.menu.hideWinner();
+				this.start();
+			} else if(state === 'Menu') {
+				this._detachEventListener();
+				this.keyboard.setMode(gameModes.menu);
+				this.menu.hideCountdown();	
+				this.menu.hideWinner();
+				this.menu.display();
+				this.menu.displayOptions();
+				this._nextRound = true;
+			}
+			else if(state.player === 'Player1') this.player1.move(state.direction, this._player1El, this.field.height);
+			else if(state.player === 'Player2') this.player2.move(state.direction, this._player2El, this.field.height);
+		}
+	}
+
+	prepare() {
+		if(!this._nextRound) this._detachEventListener();
+		this.currentGameMode = this._getCheckedRadioButtonValue();
+		this.keyboard.setMode(this.currentGameMode);
+		this.keyboard._safeMode = false;
+		if(!this._nextRound) this._attachEventListener();
+	}
+
+	async start() {
+		this.menu.displayCountdown();
+		await this._countdown();
+		this._updateInterval = setInterval(() => { this._update() }, 1000/60);
+		this.menu.hide();
+	}
+
 	_attachEventListener() {
 		window.addEventListener(this.keyboard.getListenerKey(), (event) => this.detectKey(event));
 	}
@@ -34,33 +82,8 @@ class GameBoard {
 		window.removeEventListener(this.keyboard.getListenerKey(), (event) => this.detectKey(event));
 	}
 
-	sync() {
-		this.field = this._fieldEl.getBoundingClientRect();
-		this.ball.setBallSize();
-	}
-
-	detectKey(event) { //TODO: is now dependent from gameBoard and not from keyboard, keyboard mode or gamemode (Needs change)
-		let state = this.keyboard.detectKey(event);
-		if(state) {
-			if(state === 'Start') {
-				this.prepare();
-				this.start();
-			}
-			else if(state.player === 'Player1') this.player1.move(state.direction, this._player1El, this.field.height);
-			else if(state.player === 'Player2') this.player2.move(state.direction, this._player2El, this.field.height);
-		}
-	}
-
-	prepare() {
-		this._detachEventListener();
-		const gameMode = this.getCheckedRadioButtonValue();
-		this.keyboard.setMode(gameMode);
-		this._attachEventListener();
-	}
-
-	getCheckedRadioButtonValue() {
+	_getCheckedRadioButtonValue() {
 		const radioButtons = document.querySelectorAll('input[name="gameMode"]');
-		console.log(radioButtons);
 		for(const rbtn of radioButtons) {
 			if(rbtn.checked) {
 				return rbtn.value;
@@ -68,34 +91,42 @@ class GameBoard {
 		}
 	}
 
-	async start() {
-		await this._countdown();
-		setInterval(async () => { await this._update() }, 1000/60);
-		this.menu.hide();
-	}
-
 	async _countdown() {
-		let counter = 3;
+		this.menu.hideOptions();
+		let counter = 3;	
 		this.player1.ready = true;
 		while(counter >= 0) {
-			this._gameMenuEl.innerHTML = counter--;
+			this._countdownMessageEl.innerText = counter--;
 			await sleep(750);
 		}
 	}
 
-	async _update() {
+	_update() {
 		this.ball.draw();
 		let player = (this.ball.x + this.ball.radius < this.ball.fieldWidth/2) ? this.player1 : this.player2;
 		let goal = checkBoundaries(this.ball, player);
 		
 		if(goal) {
-			this.updateScoreBoard(goal);
-			this.ball.resetBall();
+			this._updateScoreBoard(goal);
+			this.ball.resetBall().draw();
 		}
+
 	}
 
-	updateScoreBoard(player) {
-		this.scoreBoard.addScoreTo(player);
+	_updateScoreBoard(player) {
+		let isGameOver = this.scoreBoard.addScoreTo(player);
+		if(!isGameOver) return;
+		
+		let winningPlayer;
+		if(isGameOver === 1) {
+			winningPlayer = this.player1.type;
+		} else if(isGameOver === 2) {
+			winningPlayer = this.player2.type;
+		}
+
+		clearInterval(this._updateInterval);
+		this.menu.displayWinner(winningPlayer);
+		this.keyboard.setMode(gameModes.gameOver);
 	}
 }
 

@@ -15,7 +15,7 @@ html, body {
 }
 
 h1 {
-  font-size: 1.1em;
+  font-size: 1.4em;
   text-transform: uppercase;
   margin-bottom: 0.5em;
   letter-spacing: 3px;
@@ -185,6 +185,7 @@ label:hover {
 #player1-score, #player2-score {
   width: 5vw;
   margin-top: 1vh;
+  margin: 0;
 }
 
 #game-menu {
@@ -218,6 +219,32 @@ label:hover {
   padding: 0;
 }
 
+#winner-screen {
+  font-family: 'Press Start 2P', cursive;
+  -ms-grid-column: 2;
+      grid-column-start: 2;
+  grid-column-end: 3;
+  -ms-grid-row: 2;
+      grid-row-start: 2;
+  grid-row-end: 3;
+  z-index: 8;
+  background-color: rgba(217, 213, 212, 0.5);
+  color: #E5E5E5;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  display: none;
+  font-size: 1.8rem;
+  font-variant: small-caps;
+}
+
+#winner-message {
+  border-bottom: 5px dashed #363230;
+}
+
 #middle-line {
   border-right: 4px dashed #191716;
   -ms-grid-column: 2;
@@ -226,8 +253,7 @@ label:hover {
   -ms-grid-row: 2;
       grid-row-start: 2;
   grid-row-end: 3;
+  width: 50%;
   color: #E3563D;
-  -webkit-transform: translate(-50%);
-          transform: translate(-50%);
   z-index: 4;
 }

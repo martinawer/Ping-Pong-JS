@@ -11,7 +11,7 @@ html, body
   overflow: hidden
 
 h1 
-  font-size: 1.1em
+  font-size: 1.4em
   text-transform: uppercase
   margin-bottom: 0.5em
   letter-spacing: 3px
@@ -141,6 +141,7 @@ label
 #player1-score, #player2-score
   width: 5vw
   margin-top: 1vh
+  margin: 0
 
 #game-menu
   font-family: 'Press Start 2P', cursive
@@ -163,12 +164,30 @@ label
   list-style-type: none
   padding: 0
 
+#winner-screen
+  font-family: 'Press Start 2P', cursive
+  grid-column-start: 2
+  grid-column-end: 3
+  grid-row-start: 2
+  grid-row-end: 3
+  z-index: 8
+  background-color: $menu-color
+  color: $font-color
+  align-items: center
+  justify-content: center
+  display: none
+  font-size: 1.8rem
+  font-variant: small-caps
+
+#winner-message
+  border-bottom: 5px dashed $secondary-color
+
 #middle-line
   border-right: 4px dashed $tertiary-color
   grid-column-start: 2
   grid-column-end: 3
   grid-row-start: 2
   grid-row-end: 3
+  width: 50%
   color: $primary-color
-  transform: translate(-50%)
   z-index: 4

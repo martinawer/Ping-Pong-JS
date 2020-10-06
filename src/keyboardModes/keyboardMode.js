@@ -1,8 +1,7 @@
 class KeyboardMode {
 	listenerKey;
 
-	constructor(gameMode) {
-		this.gameMode = gameMode;
+	constructor() {
 	}
 
 	init() {
@@ -14,7 +13,7 @@ class KeyboardMode {
 	}
 
 	terminate() {
-		throw new Error('No Keyboard Mode specified.');
+		//throw new Error('No Keyboard Mode specified.');
 	}
 
 }

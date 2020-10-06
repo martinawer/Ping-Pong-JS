@@ -6,8 +6,8 @@ class Keyboard1PlayerMode extends KeyboardMode {
 
 	listenerKey = 'keypressed';
 	
-	constructor(gameMode) {
-		super(gameMode);
+	constructor() {
+		super();
 	}
 
 	init() {

@@ -1,15 +1,15 @@
 import { keys } from '../enum/keys.js';
 import { KeyboardMode } from './keyboardMode.js';
 
-class KeyboardMenuMode extends KeyboardMode {
-	_optionEl = document.getElementById('clickable');
+class KeyboardGameOverMode extends KeyboardMode {
+	_optionEl = document.getElementById('gameOver-form').lastElementChild;
 
 	listenerKey = 'keyup';	
 	
 	constructor() {
 		super();
 		this._optionEl.style.color = '#E3563D';
-	}	
+	}
 
 	init() {}
 
@@ -19,8 +19,11 @@ class KeyboardMenuMode extends KeyboardMode {
 		} else if(event.keyCode === keys.S || event.keyCode === keys.ARROW_DOWN) {
 			this._moveToNext(this._optionEl.nextElementSibling);
 		} else if(event.keyCode === keys.SPACE) {
-			if(this._optionEl.innerText === 'Start') return 'Start';
-			this._optionEl.click();
+			if(this._optionEl.innerText === 'New Game') {
+				this
+				return 'New Game';
+			}
+			else if(this._optionEl.innerText === 'Menu') return 'Menu';
 		}
 	}
 
@@ -36,4 +39,4 @@ class KeyboardMenuMode extends KeyboardMode {
 
 }
 
-export { KeyboardMenuMode };
+export { KeyboardGameOverMode };

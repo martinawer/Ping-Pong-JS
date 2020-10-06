@@ -5,9 +5,10 @@ import { initKeypressedEvent, terminateKeypressedEvent } from '../keyboardEvents
 class Keyboard2PlayerMode extends KeyboardMode {
 
 	listenerKey = 'keypressed';
+	name = '2Player';
 	
-	constructor(gameMode) {
-		super(gameMode);
+	constructor() {
+		super();
 	}
 
 	init() {
