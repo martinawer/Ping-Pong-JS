@@ -101,31 +101,23 @@ class GameBoard {
 
 	_update() {
 		this.ball.draw();
-		let player = (this.ball.x + this.ball.radius < this.ball.fieldWidth/2) ? this.player1 : this.player2;
-		let goal = checkBoundaries(this.ball, player);
+		const player = (this.ball.x + this.ball.radius < this.ball.fieldWidth/2) ? this.player1 : this.player2;
+		const winner = (player === this.player1) ? this.player2 : this.player1;
+		const goal = checkBoundaries(this.ball, player);
 		
 		if(goal) {
-			this._updateScoreBoard(goal);
+			this.scoreBoard.addScoreTo(goal);
 			this.ball.resetBall().draw();
 		}
 
-	}
-
-	_updateScoreBoard(player) {
-		let isGameOver = this.scoreBoard.addScoreTo(player);
-		if(!isGameOver) return;
-		
-		let winningPlayer;
-		if(isGameOver === 1) {
-			winningPlayer = this.player1.type;
-		} else if(isGameOver === 2) {
-			winningPlayer = this.player2.type;
+		if(this.scoreBoard.isGameOver()) {
+			clearInterval(this._updateInterval);
+			this.menu.displayWinner(winner.type);
+			this.keyboard.setMode(gameModes.gameOver);
 		}
 
-		clearInterval(this._updateInterval);
-		this.menu.displayWinner(winningPlayer);
-		this.keyboard.setMode(gameModes.gameOver);
 	}
+
 }
 
 export { GameBoard };
