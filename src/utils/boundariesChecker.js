@@ -32,7 +32,7 @@ function checkBoundaries(ball, player) {
 		}
 	}
 
-	if((ball.y += ball.velocityY) > ball._canvasWrapper.clientHeight) {
+	if((ball.y += ball.velocityY)+ball.radius > ball._canvasWrapper.clientHeight) {
 		ball.y = ball._canvasWrapper.clientHeight- (1*direction);
 	} else {
 		ball.x += ball.velocityX;

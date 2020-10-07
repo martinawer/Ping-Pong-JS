@@ -16,6 +16,7 @@ class GameBoard {
 	_gameMenuEl = document.getElementById('game-menu');
 	_countdownMessageEl = document.getElementById('countdown-message');
 	_updateInterval;
+	_nextRound = false;
 
 	currentGameMode;
 
@@ -35,23 +36,20 @@ class GameBoard {
 		this.ball.setBallSize();
 	}
 
-	detectKey(event) { //TODO: should depend on keyboard/keyboardMode (Needs change)
+	async detectKey(event) {
 		let state = this.keyboard.detectKey(event);
 		if(state) {
 			if(state === 'Start') {
 				this.prepare();
-				this.start();
+				await this.start();
 			} else if(state === 'New Game') {
 				this.keyboard.setMode(this.currentGameMode);
-				this.menu.hideWinner();
-				this.start();
+				await this.start();
 			} else if(state === 'Menu') {
 				this._detachEventListener();
 				this.keyboard.setMode(gameModes.menu);
-				this.menu.hideCountdown();	
-				this.menu.hideWinner();
-				this.menu.display();
-				this.menu.displayOptions();
+				this.menu.hide();
+				this.menu.displayMenu();
 				this._nextRound = true;
 			}
 			else if(state.player === 'Player1') this.player1.move(state.direction, this._player1El, this.field.height);
@@ -68,6 +66,7 @@ class GameBoard {
 	}
 
 	async start() {
+		this.menu.hide();
 		this.menu.displayCountdown();
 		await this._countdown();
 		this._updateInterval = setInterval(() => { this._update() }, 1000/60);
@@ -92,7 +91,6 @@ class GameBoard {
 	}
 
 	async _countdown() {
-		this.menu.hideOptions();
 		let counter = 3;	
 		this.player1.ready = true;
 		while(counter >= 0) {

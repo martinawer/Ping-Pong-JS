@@ -1,8 +1,8 @@
 import { KeyboardMenuMode } from './keyboardModes/keyboardMenuMode.js';
 import { Keyboard2PlayerMode } from './keyboardModes/keyBoard2PlayerMode.js';
 import { Keyboard1PlayerMode } from './keyboardModes/keyboard1PlayerMode.js';
-import { gameModes } from './enum/gameModes.js';
 import { KeyboardGameOverMode } from './keyboardModes/keyboardGameOverMode.js';
+import { gameModes } from './enum/gameModes.js';
 
 
 class Keyboard {
@@ -16,12 +16,12 @@ class Keyboard {
 
 	constructor() {
 		this.currentMode = this.keyboardModes.get(gameModes.menu);
-	}
+	}	
 
 	setMode(gameMode) {
-			this.currentMode.terminate();
-			this.currentMode = this.keyboardModes.get(gameMode);
-			this.currentMode.init();
+		this.currentMode.terminate();
+		this.currentMode = this.keyboardModes.get(gameMode);
+		this.currentMode.init();
 	}
 
 	detectKey(event) {

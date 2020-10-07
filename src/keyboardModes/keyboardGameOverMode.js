@@ -20,12 +20,13 @@ class KeyboardGameOverMode extends KeyboardMode {
 			this._moveToNext(this._optionEl.nextElementSibling);
 		} else if(event.keyCode === keys.SPACE) {
 			if(this._optionEl.innerText === 'New Game') {
-				this
 				return 'New Game';
 			}
 			else if(this._optionEl.innerText === 'Menu') return 'Menu';
 		}
 	}
+
+	terminiate() {}
 
 	_moveToNext(element) {
 		if(element && element.id === 'clickable') {
@@ -34,8 +35,6 @@ class KeyboardGameOverMode extends KeyboardMode {
 			element.style.color = '#E3563D';
 		}
 	}
-
-	terminiate() {}
 
 }
 

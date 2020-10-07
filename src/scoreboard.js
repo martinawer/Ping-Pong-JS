@@ -5,6 +5,7 @@ class Scoreboard {
 
 	player1_score;
 	player2_score;
+	max_score = 1;
 
 	constructor(player1_score, player2_score) {
 		this.player1_score = player1_score;
@@ -21,12 +22,9 @@ class Scoreboard {
 	}
 
 	isGameOver() {
-		if(this.player1_score === 2) {
+		if(this.player1_score === this.max_score || this.player2_score === this.max_score) {
 			this.resetScoreboard();
-			return 1;
-		} else if(this.player2_score === 2) {
-			this.resetScoreboard();
-			return 2;
+			return this.player1_score > this.player2_score ? 1 : 2;
 		}
 		return false;
 	}
