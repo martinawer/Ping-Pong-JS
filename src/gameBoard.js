@@ -103,12 +103,13 @@ class GameBoard {
 	}
 
 	_moveComputer(computerEl, maxHeight) {
-		if(this.ball.y > this.player2.y+(this.player2.height/2)) {
-			this.player2.move('DOWN', computerEl, maxHeight);
-		} else if(this.ball.y < this.player2.y+(this.player2.height/2)) {
-			this.player2.move('UP', computerEl, maxHeight);
+		if(this.ball.x >= (this.field.width-this.field.width/3)) {
+			if(this.ball.y > this.player2.y+(this.player2.height/2)) {
+				this.player2.move('DOWN', computerEl, maxHeight);
+			} else if(this.ball.y < this.player2.y+(this.player2.height/2)) {
+				this.player2.move('UP', computerEl, maxHeight);
+			}
 		}
-
 	}
 
 	async _countdown() {
@@ -122,10 +123,8 @@ class GameBoard {
 
 	_update() {
 		this.ball.draw();
-		//TODO: only move computer when its flying in his direction and is on his field
-		if(this.ball.x >= (this.field.width-this.field.width/3)) {
-			this._moveComputer(this._player2El, this.field.height);
-		}
+		if(this.currentGameMode === gameModes.singlePlayer) this._moveComputer(this._player2El, this.field.height);
+
 		const player = (this.ball.x + this.ball.radius < this.ball.fieldWidth/2) ? this.player1 : this.player2;
 		const winner = (player === this.player1) ? this.player2 : this.player1;
 		const goal = checkBoundaries(this.ball, player);
