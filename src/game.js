@@ -14,7 +14,7 @@ class Game {
 	_fieldEl = document.getElementById('game-window');
 	_countdownMessageEl = document.getElementById('countdown-message');
 	_updateInterval;
-	_nextRound = false; //TODO: rename
+	_nextRound = false;
 
 	currentGameMode;
 	player1;
@@ -29,6 +29,14 @@ class Game {
 		this._attachEventListener();
 	}
 
+	_attachEventListener() {
+		window.addEventListener(this.keyboard.getListenerKey(), (event) => this.detectKey(event));
+	}
+
+	_detachEventListener() {
+		window.removeEventListener(this.keyboard.getListenerKey(), (event) => this.detectKey(event));
+	}
+	
 	sync() {
 		this.field = this._fieldEl.getBoundingClientRect();
 		this.ball.setBallSize();
@@ -60,7 +68,6 @@ class Game {
 		this.currentGameMode = this._getCheckedRadioButtonValue();
 		this.keyboard.setMode(this.currentGameMode);
 		this.initPlayers();
-		this.keyboard._safeMode = false;
 		if(!this._nextRound) this._attachEventListener();
 	}
 
@@ -85,14 +92,6 @@ class Game {
 		this.menu.hide();
 	}
 
-	_attachEventListener() {
-		window.addEventListener(this.keyboard.getListenerKey(), (event) => this.detectKey(event));
-	}
-
-	_detachEventListener() {
-		window.removeEventListener(this.keyboard.getListenerKey(), (event) => this.detectKey(event));
-	}
-
 	_getCheckedRadioButtonValue() {
 		const radioButtons = document.querySelectorAll('input[name="gameMode"]');
 		for(const rbtn of radioButtons) {
@@ -101,8 +100,6 @@ class Game {
 			}
 		}
 	}
-
-
 
 	async _countdown() {
 		let counter = 3;	
@@ -114,6 +111,7 @@ class Game {
 
 	_update() {
 		this.ball.draw();
+
 		if(this.currentGameMode === gameModes.singlePlayer) {
 			this.player2.move(this.ball, this.field.height);
 		} else if(this.currentGameMode === gameModes.zeroPlayer) {
@@ -122,17 +120,17 @@ class Game {
 		}
 
 		const player = (this.ball.x + this.ball.radius < this.ball.fieldWidth/2) ? this.player1 : this.player2;
-		const winner = (player === this.player1) ? this.player2 : this.player1;
 		const goal = checkBoundaries(this.ball, player);
 		
 		if(goal) {
-			this.scoreBoard.addScoreTo(goal);
+			this.scoreBoard.addScore(goal);
 			this.ball.resetBall().draw();
 		}
 
 		if(this.scoreBoard.isGameOver()) {
+			const winner = (player === this.player1) ? this.player2 : this.player1;
 			clearInterval(this._updateInterval);
-			this.menu.displayWinner(winner.type);
+			this.menu.displayWinner(winner.name);
 			this.keyboard.setMode(gameModes.gameOver);
 		}
 

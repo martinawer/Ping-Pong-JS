@@ -5,14 +5,14 @@ class Scoreboard {
 
 	player1_score;
 	player2_score;
-	max_score = 2;
+	max_score = 4;
 
 	constructor(player1_score, player2_score) {
 		this.player1_score = player1_score;
 		this.player2_score = player2_score;
 	}
 
-	addScoreTo(player) {
+	addScore(player) {
 		if(player === 1) {
 			this._player1ScoreEl.innerHTML = ++this.player1_score;
 		} else {

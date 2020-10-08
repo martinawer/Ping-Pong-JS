@@ -21,7 +21,7 @@ function keydown(event) {
         key.pressed = true;
     } else {
         let timer = new DeltaTimer(function (time) {
-            if (key.pressed & !isWaiting) {
+            if (key.pressed && !isWaiting) {
                 let event = document.createEvent("Event");
                 event.initEvent("keypressed", true, true);
                 event.time = time - key.start;
@@ -43,10 +43,8 @@ function keydown(event) {
 }
 
 function keyup(event) {
-    if(!isWaiting) {//TODO: isWaiting?
-        if(keyboard[event.keyCode]) {
-            keyboard[event.keyCode].pressed = false;
-        }
+    if(keyboard[event.keyCode]) {
+        keyboard[event.keyCode].pressed = false;
     }
 }
 

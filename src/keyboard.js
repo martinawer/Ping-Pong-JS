@@ -1,9 +1,9 @@
 import { KeyboardMenuMode } from './keyboardModes/keyboardMenuMode.js';
 import { Keyboard2PlayerMode } from './keyboardModes/keyBoard2PlayerMode.js';
 import { Keyboard1PlayerMode } from './keyboardModes/keyboard1PlayerMode.js';
+import { Keyboard0PlayerMode } from './keyboardModes/keyboard0PlayerMode.js';
 import { KeyboardGameOverMode } from './keyboardModes/keyboardGameOverMode.js';
 import { gameModes } from './enum/gameModes.js';
-import { Keyboard0PlayerMode } from './keyboardModes/keyboard0PlayerMode.js';
 
 
 class Keyboard {

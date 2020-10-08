@@ -46,11 +46,6 @@ function collision(ball, player) {
 	ball.left = ball.x - ball.radius;
 	ball.right = ball.x + ball.radius;
 
-	// console.log(`${player.type} p.left < b.right: ${player.left} < ${ball.right} 
-	// p.top < b.bottom: ${player.top} < ${ball.bottom} 
-	// p.right > b.left: ${player.right} > ${ball.left} 
-	// p.bottom > b.top: ${player.bottom} > ${ball.top}`);
-
 	return player.left < ball.right && player.top < ball.bottom && player.right > ball.left && player.bottom > ball.top;
 }
 
