@@ -13,7 +13,7 @@ class KeyboardMode {
 	}
 
 	terminate() {
-		//throw new Error('No Keyboard Mode specified.');
+		//throw new Error('No Keyboard Mode specified.'); TODO: throws error?
 	}
 
 }

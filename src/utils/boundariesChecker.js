@@ -13,13 +13,12 @@ function checkBoundaries(ball, player) {
 	let angleRad = 0;
 	let direction;
 	if(collision(ball, player)) {
-		//TODO: check collidePoint or just everything. can stop it here
 		let collidePoint = (ball.y - (player.y + player.height/2));
 		collidePoint = collidePoint / (player.height/2);
 
 		angleRad = (Math.PI/4) * collidePoint;
 
-		if(player.type === 'player1' || player.type === 'computer1') {
+		if(player.x === 0) {
 			direction = (ball.x + ball.radius < ball.canvas.width/2) ? -1 : 1;
 		} else {
 			direction = (ball.x + ball.radius < ball.canvas.width/2) ? 1 : -1;

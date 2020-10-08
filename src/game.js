@@ -1,5 +1,6 @@
 import { Ball } from './ball.js';
-import { Player } from './player.js'
+import { Player } from './player.js';
+import { Computer } from './computer.js';
 import { Menu } from './menu.js';
 import { sleep } from './utils/helper.js';
 import { Scoreboard } from './scoreboard.js';
@@ -8,16 +9,12 @@ import { Keyboard } from './keyboard.js';
 import { gameModes } from './enum/gameModes.js';
 
 
-class GameBoard {
+class Game {
 
 	_fieldEl = document.getElementById('game-window');
-	_player1El = document.getElementById('player1-block');
-	_player2El = document.getElementById('player2-block');
-	_gameMenuEl = document.getElementById('game-menu');
 	_countdownMessageEl = document.getElementById('countdown-message');
 	_updateInterval;
-	_computerInterval;
-	_nextRound = false;
+	_nextRound = false; //TODO: rename
 
 	currentGameMode;
 	player1;
@@ -53,13 +50,13 @@ class GameBoard {
 				this.menu.displayMenu();
 				this._nextRound = true;
 			}
-			else if(state.player === 'Player1') this.player1.move(state.direction, this._player1El, this.field.height);
-			else if(state.player === 'Player2') this.player2.move(state.direction, this._player2El, this.field.height);
+			else if(state.player === 'Player1') this.player1.move(state.direction, this.field.height);
+			else if(state.player === 'Player2') this.player2.move(state.direction, this.field.height);
 		}
-	}
+	}	
 
 	prepare() {
-		if(!this._nextRound) this._detachEventListener(); //TODO: do these even work?
+		if(!this._nextRound) this._detachEventListener();
 		this.currentGameMode = this._getCheckedRadioButtonValue();
 		this.keyboard.setMode(this.currentGameMode);
 		this.initPlayers();
@@ -69,14 +66,14 @@ class GameBoard {
 
 	initPlayers() {
 		if(this.currentGameMode === gameModes.singlePlayer) {
-			this.player1 = new Player(this._player1El, 'player1');
-			this.player2 = new Player(this._player2El, 'computer2');
+			this.player1 = new Player('left');
+			this.player2 = new Computer('right');
 		} else if(this.currentGameMode === gameModes.multiPlayer) {
-			this.player1 = new Player(this._player1El, 'player1');
-			this.player2 = new Player(this._player2El, 'player2');
+			this.player1 = new Player('left');
+			this.player2 = new Player('right');
 		} else if(this.currentGameMode === gameModes.zeroPlayer) {
-			this.player1 = new Player(this._player1El, 'computer1');
-			this.player2 = new Player(this._player2El, 'computer2');
+			this.player1 = new Computer('left');
+			this.player2 = new Computer('right');
 		}
 	}
 
@@ -105,19 +102,10 @@ class GameBoard {
 		}
 	}
 
-	_moveComputer(player, computerEl, maxHeight) {
-		if(player.type === 'computer2' && this.ball.x >= player.x-300 || player.type === 'computer1' && this.ball.x <= 300) {
-			if(this.ball.y > player.y+(player.height/2)) {
-				player.move('DOWN', computerEl, maxHeight);
-			} else if(this.ball.y < player.y+(player.height/2)) {
-				player.move('UP', computerEl, maxHeight);
-			}
-		}
-	}
+
 
 	async _countdown() {
 		let counter = 3;	
-		this.player1.ready = true;
 		while(counter >= 0) {
 			this._countdownMessageEl.innerText = counter--;
 			await sleep(750);
@@ -127,12 +115,11 @@ class GameBoard {
 	_update() {
 		this.ball.draw();
 		if(this.currentGameMode === gameModes.singlePlayer) {
-			this._moveComputer(this.player2, this._player2El, this.field.height);
+			this.player2.move(this.ball, this.field.height);
 		} else if(this.currentGameMode === gameModes.zeroPlayer) {
-			this._moveComputer(this.player1, this._player1El, this.field.height);
-			this._moveComputer(this.player2, this._player2El, this.field.height);
+			this.player1.move(this.ball, this.field.height);
+			this.player2.move(this.ball, this.field.height);
 		}
-
 
 		const player = (this.ball.x + this.ball.radius < this.ball.fieldWidth/2) ? this.player1 : this.player2;
 		const winner = (player === this.player1) ? this.player2 : this.player1;
@@ -153,4 +140,4 @@ class GameBoard {
 
 }
 
-export { GameBoard };
+export { Game };

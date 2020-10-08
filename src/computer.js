@@ -1,16 +1,18 @@
 import { Paddle } from './paddle.js';
 
-class Player extends Paddle {
+class Computer extends Paddle {
 
 	constructor(paddleSide) {
 		super(paddleSide);
 	}
 
-	move(direction, maxHeight) {
-		if(direction === 'UP') {
-			this._moveUp();
-		} else {
-			this._moveDown(maxHeight);
+	move(ball, maxHeight) {
+		if(this.x > 0 && ball.x >= this.x-150 || this.x === 0 && ball.x <= 150) {
+			if(ball.y > this.y+(this.height/2)) {
+				this._moveDown(maxHeight);
+			} else if(ball.y < this.y+(this.height/2)) {
+				this._moveUp();
+			}
 		}
 	}
 
@@ -33,4 +35,4 @@ class Player extends Paddle {
 	}
 }
 
-export { Player };
+export { Computer };

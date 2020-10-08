@@ -43,7 +43,7 @@ function keydown(event) {
 }
 
 function keyup(event) {
-    if(!isWaiting) {
+    if(!isWaiting) {//TODO: isWaiting?
         if(keyboard[event.keyCode]) {
             keyboard[event.keyCode].pressed = false;
         }

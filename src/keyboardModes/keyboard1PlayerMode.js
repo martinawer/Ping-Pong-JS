@@ -5,7 +5,6 @@ import { initKeypressedEvent, terminateKeypressedEvent } from '../keyboardEvents
 class Keyboard1PlayerMode extends KeyboardMode {
 
 	listenerKey = 'keypressed';
-	_computerInterval;
 	
 	constructor() {
 		super();

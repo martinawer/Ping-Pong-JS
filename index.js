@@ -1,6 +1,6 @@
-import { GameBoard } from "./src/gameBoard.js";
+import { Game } from "./src/game.js";
 
-const game = new GameBoard();
+const game = new Game();
 
 window.onresize = () => game.sync();
 document.addEventListener('click', (event) => startGame(event));

@@ -1,4 +1,8 @@
-@import colors
+@import colors#
+
+*
+  padding: 0
+  margin: 0
 
 html, body
   background: $tertiary-color
@@ -93,6 +97,7 @@ label
   height: 100%
   width: 100%
   position: relative
+  z-index: 3
   background: $secondary-color
 
 #player1-block, #player2-block
@@ -102,13 +107,13 @@ label
   position: absolute
 
 #player1-block
-  //align-items: start
-  z-index: 6
+  left: 0
+  z-index: 3
 
 #player2-block
   align-items: start
   right: 0
-  z-index: 6
+  z-index: 3
 
 #canvas-wrapper
   height: 100%
@@ -129,7 +134,7 @@ label
 #scoreboard
   font-family: 'Press Start 2P', cursive
   font-size: xx-large
-  z-index: 3
+  z-index: 4
   display: flex
   justify-content: center
   grid-column-start: 2
@@ -151,7 +156,7 @@ label
   display: flex
   justify-content: center
   align-items: center
-  z-index: 8
+  z-index: 5
   color: $font-color
 
 #game-menu
@@ -160,7 +165,7 @@ label
   grid-column-end: 3
   grid-row-start: 2
   grid-row-end: 3
-  z-index: 7
+  z-index: 4
   background-color: $menu-color
   color: $font-color
   display: flex
@@ -181,7 +186,7 @@ label
   grid-column-end: 3
   grid-row-start: 2
   grid-row-end: 3
-  z-index: 8
+  z-index: 5
   background-color: $menu-color
   color: $font-color
   align-items: center
@@ -194,11 +199,22 @@ label
   border-bottom: 5px dashed $secondary-color
 
 #middle-line
-  border-right: 4px dashed $tertiary-color
   grid-column-start: 2
   grid-column-end: 3
   grid-row-start: 2
   grid-row-end: 3
+  display: flex
+
+#left-middle-line
+  flex: 1
+  border-right: 2px dashed $tertiary-color
   width: 50%
   color: $primary-color
-  z-index: 4
+  z-index: 3
+
+#right-middle-line
+  flex: 1
+  border-left: 2px dashed $tertiary-color
+  margin: 0 auto
+  color: $primary-color
+  z-index: 3
