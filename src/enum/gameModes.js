@@ -2,7 +2,8 @@ const gameModes = {
 	menu: 'menu',
 	gameOver: 'gameOver',
 	singlePlayer: 'singlePlayer',
-	multiPlayer: 'multiPlayer'
+	multiPlayer: 'multiPlayer',
+	zeroPlayer: 'zeroPlayer'
 }
 
 export { gameModes };

@@ -74,6 +74,9 @@ class GameBoard {
 		} else if(this.currentGameMode === gameModes.multiPlayer) {
 			this.player1 = new Player(this._player1El, 'player1');
 			this.player2 = new Player(this._player2El, 'player2');
+		} else if(this.currentGameMode === gameModes.zeroPlayer) {
+			this.player1 = new Player(this._player1El, 'computer1');
+			this.player2 = new Player(this._player2El, 'computer2');
 		}
 	}
 
@@ -102,12 +105,12 @@ class GameBoard {
 		}
 	}
 
-	_moveComputer(computerEl, maxHeight) {
-		if(this.ball.x >= (this.field.width-this.field.width/3)) {
-			if(this.ball.y > this.player2.y+(this.player2.height/2)) {
-				this.player2.move('DOWN', computerEl, maxHeight);
-			} else if(this.ball.y < this.player2.y+(this.player2.height/2)) {
-				this.player2.move('UP', computerEl, maxHeight);
+	_moveComputer(player, computerEl, maxHeight) {
+		if(player.type === 'computer2' && this.ball.x >= player.x-300 || player.type === 'computer1' && this.ball.x <= 300) {
+			if(this.ball.y > player.y+(player.height/2)) {
+				player.move('DOWN', computerEl, maxHeight);
+			} else if(this.ball.y < player.y+(player.height/2)) {
+				player.move('UP', computerEl, maxHeight);
 			}
 		}
 	}
@@ -123,7 +126,13 @@ class GameBoard {
 
 	_update() {
 		this.ball.draw();
-		if(this.currentGameMode === gameModes.singlePlayer) this._moveComputer(this._player2El, this.field.height);
+		if(this.currentGameMode === gameModes.singlePlayer) {
+			this._moveComputer(this.player2, this._player2El, this.field.height);
+		} else if(this.currentGameMode === gameModes.zeroPlayer) {
+			this._moveComputer(this.player1, this._player1El, this.field.height);
+			this._moveComputer(this.player2, this._player2El, this.field.height);
+		}
+
 
 		const player = (this.ball.x + this.ball.radius < this.ball.fieldWidth/2) ? this.player1 : this.player2;
 		const winner = (player === this.player1) ? this.player2 : this.player1;

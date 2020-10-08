@@ -3,6 +3,7 @@ import { Keyboard2PlayerMode } from './keyboardModes/keyBoard2PlayerMode.js';
 import { Keyboard1PlayerMode } from './keyboardModes/keyboard1PlayerMode.js';
 import { KeyboardGameOverMode } from './keyboardModes/keyboardGameOverMode.js';
 import { gameModes } from './enum/gameModes.js';
+import { Keyboard0PlayerMode } from './keyboardModes/keyboard0PlayerMode.js';
 
 
 class Keyboard {
@@ -11,7 +12,8 @@ class Keyboard {
 		[gameModes.menu, new KeyboardMenuMode()],
 		[gameModes.singlePlayer, new Keyboard1PlayerMode()],
 		[gameModes.multiPlayer, new Keyboard2PlayerMode()],
-		[gameModes.gameOver, new KeyboardGameOverMode()]
+		[gameModes.gameOver, new KeyboardGameOverMode()],
+		[gameModes.zeroPlayer, new Keyboard0PlayerMode()]
 	]); 
 
 	constructor() {

@@ -13,12 +13,13 @@ function checkBoundaries(ball, player) {
 	let angleRad = 0;
 	let direction;
 	if(collision(ball, player)) {
+		//TODO: check collidePoint or just everything. can stop it here
 		let collidePoint = (ball.y - (player.y + player.height/2));
 		collidePoint = collidePoint / (player.height/2);
 
 		angleRad = (Math.PI/4) * collidePoint;
 
-		if(player.type === 'player1') {
+		if(player.type === 'player1' || player.type === 'computer1') {
 			direction = (ball.x + ball.radius < ball.canvas.width/2) ? -1 : 1;
 		} else {
 			direction = (ball.x + ball.radius < ball.canvas.width/2) ? 1 : -1;
@@ -31,13 +32,8 @@ function checkBoundaries(ball, player) {
 			ball.speed += 0.2;
 		}
 	}
-
-	if((ball.y += ball.velocityY)+ball.radius > ball._canvasWrapper.clientHeight) {
-		ball.y = ball._canvasWrapper.clientHeight- (1*direction);
-	} else {
-		ball.x += ball.velocityX;
-		ball.y += ball.velocityY;
-	}
+	ball.x += ball.velocityX;
+	ball.y += ball.velocityY;
 }
 
 function collision(ball, player) {
@@ -51,7 +47,10 @@ function collision(ball, player) {
 	ball.left = ball.x - ball.radius;
 	ball.right = ball.x + ball.radius;
 
-	//console.log(`Type: ${player.type} Top: ${player.top}, Bottom: ${player.bottom}, Left: ${player.left}, Right: ${player.right}`);
+	// console.log(`${player.type} p.left < b.right: ${player.left} < ${ball.right} 
+	// p.top < b.bottom: ${player.top} < ${ball.bottom} 
+	// p.right > b.left: ${player.right} > ${ball.left} 
+	// p.bottom > b.top: ${player.bottom} > ${ball.top}`);
 
 	return player.left < ball.right && player.top < ball.bottom && player.right > ball.left && player.bottom > ball.top;
 }
