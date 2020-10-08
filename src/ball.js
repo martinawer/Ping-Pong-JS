@@ -11,7 +11,7 @@ class Ball {
 		this.x = this._canvasWrapper.width/2;
 		this.y = this._canvasWrapper.height/2;
 		this.velocityX = 4;
-		this.velocityY = 0;
+		this.velocityY = 4;
 		this.fieldWidth = this._canvasWrapper.width;
 		this.fieldHeight = this._canvasWrapper.height;
 	}

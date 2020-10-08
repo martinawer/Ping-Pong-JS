@@ -16,13 +16,14 @@ class GameBoard {
 	_gameMenuEl = document.getElementById('game-menu');
 	_countdownMessageEl = document.getElementById('countdown-message');
 	_updateInterval;
+	_computerInterval;
 	_nextRound = false;
 
 	currentGameMode;
+	player1;
+	player2;
 
 	constructor() {
-		this.player1 = new Player(this._player1El, 'player1');
-		this.player2 = new Player(this._player2El, 'player2');
 		this.ball = new Ball().setBallSize().draw();
 		this.field = this._fieldEl.getBoundingClientRect();
 		this.scoreBoard = new Scoreboard(0, 0);
@@ -58,11 +59,22 @@ class GameBoard {
 	}
 
 	prepare() {
-		if(!this._nextRound) this._detachEventListener();
+		if(!this._nextRound) this._detachEventListener(); //TODO: do these even work?
 		this.currentGameMode = this._getCheckedRadioButtonValue();
 		this.keyboard.setMode(this.currentGameMode);
+		this.initPlayers();
 		this.keyboard._safeMode = false;
 		if(!this._nextRound) this._attachEventListener();
+	}
+
+	initPlayers() {
+		if(this.currentGameMode === gameModes.singlePlayer) {
+			this.player1 = new Player(this._player1El, 'player1');
+			this.player2 = new Player(this._player2El, 'computer2');
+		} else if(this.currentGameMode === gameModes.multiPlayer) {
+			this.player1 = new Player(this._player1El, 'player1');
+			this.player2 = new Player(this._player2El, 'player2');
+		}
 	}
 
 	async start() {
@@ -90,6 +102,15 @@ class GameBoard {
 		}
 	}
 
+	_moveComputer(computerEl, maxHeight) {
+		if(this.ball.y > this.player2.y+(this.player2.height/2)) {
+			this.player2.move('DOWN', computerEl, maxHeight);
+		} else if(this.ball.y < this.player2.y+(this.player2.height/2)) {
+			this.player2.move('UP', computerEl, maxHeight);
+		}
+
+	}
+
 	async _countdown() {
 		let counter = 3;	
 		this.player1.ready = true;
@@ -101,6 +122,10 @@ class GameBoard {
 
 	_update() {
 		this.ball.draw();
+		//TODO: only move computer when its flying in his direction and is on his field
+		if(this.ball.x >= (this.field.width-this.field.width/3)) {
+			this._moveComputer(this._player2El, this.field.height);
+		}
 		const player = (this.ball.x + this.ball.radius < this.ball.fieldWidth/2) ? this.player1 : this.player2;
 		const winner = (player === this.player1) ? this.player2 : this.player1;
 		const goal = checkBoundaries(this.ball, player);

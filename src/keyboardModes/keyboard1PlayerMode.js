@@ -5,6 +5,7 @@ import { initKeypressedEvent, terminateKeypressedEvent } from '../keyboardEvents
 class Keyboard1PlayerMode extends KeyboardMode {
 
 	listenerKey = 'keypressed';
+	_computerInterval;
 	
 	constructor() {
 		super();
@@ -12,6 +13,7 @@ class Keyboard1PlayerMode extends KeyboardMode {
 
 	init() {
 		initKeypressedEvent(18);
+		this._computerInterval = setInterval(() => this._moveComputer, 50);
 	}
 
 	detectKey(event) {
@@ -21,6 +23,10 @@ class Keyboard1PlayerMode extends KeyboardMode {
 		} else if(event.keyCode === keys.S) {
 			return state = { player: 'Player1', direction: 'DOWN' };
 		}
+	}
+
+	_moveComputer() {
+
 	}
 
 	terminate() {

@@ -1,10 +1,14 @@
 class Player {
 
-	constructor(playerEl, isFirstPlayer) {
-		if(isFirstPlayer === 'player1') {
-			this._buildFirstPlayer(playerEl);
-		} else {
-			this._buildSecondPlayer(playerEl);
+	constructor(playerEl, playerType) {
+		if(playerType === 'player1') {
+			this._buildFirstPlayer(playerEl, playerType);
+		} else if(playerType === 'player2') {
+			this._buildSecondPlayer(playerEl, playerType);
+		} else if(playerType === 'computer1') {
+			this._buildFirstPlayer(playerEl, playerType);
+		} else if(playerType === 'computer2') {
+			this._buildSecondPlayer(playerEl, playerType);
 		}
 	}
 
@@ -34,10 +38,10 @@ class Player {
 		}
 	}
 
-	_buildFirstPlayer(playerEl) {
-		this.type = 'player1';
+	_buildFirstPlayer(playerEl, playerType) {
+		this.type = playerType;
 		this.x = 0;
-		this.y = 0;
+		this.y = 8;
 		this.velocityY = 8,
 		this.speed =  10,
 		this.top = playerEl.getBoundingClientRect().top,
@@ -48,19 +52,18 @@ class Player {
 		this.ready = false
 	}
 
-	_buildSecondPlayer(computerEl) {
-		const leftGridCellWidth = computerEl.getBoundingClientRect().x-document.getElementById('game-window').getBoundingClientRect().width; //TODO: refactor: gameWindow hat hier auch nix zu suchen
-		const topGridCellHeight = document.getElementById('game-title').getBoundingClientRect().height; //TODO: refactor: title hat hier nix zu suchen
+	_buildSecondPlayer(playerEl, playerType) {
+		const leftGridCellWidth = playerEl.getBoundingClientRect().x-document.getElementById('game-window').getBoundingClientRect().width; //TODO: refactor: gameWindow hat hier auch nix zu suchen
 
-		this.type = 'player2',
-		this.x = computerEl.getBoundingClientRect().x-leftGridCellWidth-computerEl.getBoundingClientRect().width,	
-		this.y = computerEl.getBoundingClientRect().y-topGridCellHeight,
+		this.type = playerType,
+		this.x = playerEl.getBoundingClientRect().x-leftGridCellWidth-playerEl.getBoundingClientRect().width,	
+		this.y = 8,
 		this.velocityY = 8,
 		this.speed = 10,
-		this.top = computerEl.getBoundingClientRect().top,
-		this.bottom = computerEl.getBoundingClientRect().bottom,
-		this.height = computerEl.getBoundingClientRect().height,
-		this.width = computerEl.getBoundingClientRect().width,
+		this.top = playerEl.getBoundingClientRect().top,
+		this.bottom = playerEl.getBoundingClientRect().bottom,
+		this.height = playerEl.getBoundingClientRect().height,
+		this.width = playerEl.getBoundingClientRect().width,
 		this.score = 0
 	}
 }

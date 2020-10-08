@@ -126,22 +126,21 @@ label:hover {
   background: #363230;
 }
 
-#player1-block {
+#player1-block, #player2-block {
   background-color: #E3563D;
   width: 1vw;
   height: 20vh;
   position: absolute;
-  -webkit-box-align: start;
-      -ms-flex-align: start;
-          align-items: start;
+}
+
+#player1-block {
   z-index: 6;
 }
 
 #player2-block {
-  background-color: #E3563D;
-  width: 1vw;
-  height: 20vh;
-  position: absolute;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: start;
   right: 0;
   z-index: 6;
 }
