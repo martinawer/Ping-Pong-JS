@@ -26,7 +26,7 @@ class KeyboardGameOverMode extends KeyboardMode {
 		}
 	}
 
-	terminiate() {}
+	terminate() {}
 
 	_moveToNext(element) {
 		if(element && element.id === 'clickable') {

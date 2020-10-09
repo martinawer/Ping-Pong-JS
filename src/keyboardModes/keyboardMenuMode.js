@@ -32,7 +32,7 @@ class KeyboardMenuMode extends KeyboardMode {
 		}
 	}
 
-	terminiate() {}
+	terminate() {}
 
 }
 
